@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en-uS">
+    <head>
+        <style>
+            :root {
+                --pageMargin: 1rem;
+                --columnSize: 10lh;
+                --columnSpacing: 2lh;
+                --rowSpacing: 3lh;
+                --captionSpacing: 1lh;
+            }
+            * {
+                box-sizing: border-box;
+            }
+            button {
+                background: none;
+                color: inherit;
+                border: none;
+                padding: 0;
+                font: inherit;
+                cursor: pointer;
+            }
+            a {
+                color: inherit;
+                text-decoration: none;
+            }
+            a:hover, a:focus,
+            button:hover, button:focus {
+                font-style: italic;
+            }
+            html {
+                font-size: 87.5%;
+            }
+            body {
+                font: 400 100% / 1.2142857143 arial, helvetica, sans-serif;
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                min-height: 100vh;
+                height: 100%;
+                text-rendering: optimizeLegibility;
+                -webkit-font-smoothing: antialiased;
+                padding-inline: var(--pageMargin);
+            }
+            header {
+                box-sizing: border-box;
+                padding-block-start: 1rem;
+                margin-block-end: 4lh;
+                max-width: 30rem;
+            }
+            header * {
+                pointer-events: all;
+            }
+            nav {
+
+            }
+            .siteTitle > a{
+                background-color: black;
+                color: white;
+            }
+            .nav-list {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                margin-block-start: 1lh;
+            }
+            footer {
+                margin-top: auto;
+                padding-inline: 10px;
+                padding-block-end: 10px;
+            }
+            .postList {
+                display: grid;
+                align-items: center;
+                grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--columnSize)), 1fr));
+                gap: var(--rowSpacing) var(--columnSpacing);
+            }
+            .postList * {
+            }
+            .postList-item {
+                position: relative;
+                display: flex;
+                display: block;
+                flex-direction: column;
+                align-items: center;
+                /*justify-content: center;*/
+            }
+            .postList-anchor {
+                display: block;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                /*aspect-ratio: 1/1;*/
+                /*margin-inline: 1lh;*/
+            }
+            .postList-img {
+                background-color: whitesmoke;
+                max-inline-size: 100%;
+                inline-size: calc(100% * min(1, var(--format) * 1));
+                block-size: auto;
+            }
+            .postList-meta {
+                padding-top: var(--captionSpacing);
+                /*inline-size: calc(100% * min(1, var(--format) * 1));*/
+                /*margin-block-start: auto;*/
+                /*display: none;*/
+                margin-inline: auto;
+                text-align: center;
+            }
+            .postList-index {
+            }
+            .postList-date {
+                display: none;
+            }
+            .postList-anchor:hover ~ .postList-meta > .postList-index,
+            .postList-anchor:focus ~ .postList-meta > .postList-index {
+                display: none;
+            }
+            .postList-anchor:hover ~ .postList-meta > .postList-date,
+            .postList-anchor:focus ~ .postList-meta > .postList-date {
+                display: block
+            }
+            .status {
+                margin-top: 4.5rem;
+            }
+            .lightbox {
+                inset-inline: 0;
+                inline-size: 100%;
+                block-size: 100%;
+                display: none;
+                justify-content: center;
+                align-items: center;
+                border: 0;
+                padding: 0;
+                background-color: transparent;
+                inset-block: 0;
+                max-block-size: 85vh;
+                max-inline-size: 85vw;
+                overflow: visible;
+                cursor: pointer;
+            }
+            .lightbox::backdrop {
+                background-color: rgb(255 255 255 / 1);
+            }
+            .lightbox[open] {
+                display: flex;
+            }
+            body:has(.lightbox[open]) {
+                overflow: hidden;
+            }
+            body:has(.lightbox[open]) .postList-date {
+                display: none !important;
+            }
+            body:has(.lightbox[open]) .postList-index {
+                display: block !important;
+            }
+            .lightbox-anchor {
+                cursor: default;
+                inline-size: fit-content;
+                block-size: fit-content;
+            }
+            .lightbox-img {
+                max-block-size: 100%;
+                max-inline-size: 100%;
+                min-block-size: auto;
+                min-inline-size: auto;
+                block-size: auto;
+                inline-size: auto;
+                position: relative;
+                vertical-align: middle;
+            }
+            .lightbox-closeBtn {
+                position: fixed;
+                inset-block-start: 1lh;
+                inset-inline-end: 1lh;
+                pointer-events: none;
+                opacity: 0;
+            }
+            .lightbox-closeBtn:focus {
+                opacity: 1;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <div class="siteTitle"><a href="">Research</a></div>
+                <div class="siteDescription">A collection of research gathered by Nicholas Schmidt.</div>
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="https://alps.llc/" class="nav-link">Office</a></li>
+                    <li class="nav-item"><a href="https://nicholaschmidt.com/" class="nav-link">Personal</a></li>
+                    <li class="nav-item"><a href="https://la-prairie.nicholaschmidt.com/" class="nav-link">Writing</a></li>
+                    <li class="nav-item"><a href="mailto:nicholas@nicholaschmidt.com" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <section class="postList"><div class="postList-item" style="--format: 1.180232558139535;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810706461952000000" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/a9f29cc962df402795d7b48d6fd9f83a/3a2fbfc3e5f52dc7-dd/s500x750/ec626cc8ca0692a536d93a2620b9ae426cddaef2.jpg" width="406" height="344" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10114</span><span class="postList-date">10 March 2026</span></div></div><div class="postList-item" style="--format: 0.635102533172497;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810705730622668800" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/8115c0b7f1d89de1d00bbf451fbb725e/b7b8c4509abd5abb-5e/s1280x1920/0329622b16f01f1facc5001b9f9eb5d535d7e9d4.jpg" width="1053" height="1658" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10113</span><span class="postList-date">10 March 2026</span></div></div><div class="postList-item" style="--format: 0.6666666666666666;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810437792104677376" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/af95ac458cc4b74a356cf1cfa220dfc2/45b4fe6a0ae41a6a-b6/s500x750/8026ffa699687a6a2d1ee237999c484143659961.jpg" width="500" height="750" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10112</span><span class="postList-date">7 March 2026</span></div></div><div class="postList-item" style="--format: 0.656556645851918;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810437596947906560" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/9d2e56cd7368a2c0b1b229797a855f85/2a16a74f7cc8765f-1e/s1280x1920/50085f0a678b4c2e52833d984f33e7a6dae7aa22.jpg" width="736" height="1121" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10111</span><span class="postList-date">7 March 2026</span></div></div><div class="postList-item" style="--format: 1.3219404630650495;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810437575746666497" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/6e525beccfd4191c0d78a3bf4fac9596/74cc34a8b28dd217-19/s1280x1920/68b4593ef73abb8c84a1bca0a0e0db1d54266484.jpg" width="1199" height="907" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10110</span><span class="postList-date">7 March 2026</span></div></div><div class="postList-item" style="--format: 0.8;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810437529154306048" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/cc1fead34a7a27853f7e69a3e468dd77/7c74cffb8a3450e7-3e/s1280x1920/31006e7ca01df40287ee4aacb991d33e1a337969.jpg" width="736" height="920" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10109</span><span class="postList-date">7 March 2026</span></div></div><div class="postList-item" style="--format: 1.3333333333333333;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810432015077883904" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/8c02463926868dd01a4cb7565fd4f80c/a95924445089b3f1-cd/s1280x1920/b6c2cf083082bbc35953f8823a24e0eecd6a1370.jpg" width="1024" height="768" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10108</span><span class="postList-date">7 March 2026</span></div></div><div class="postList-item" style="--format: 0.7381342062193126;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810429196806635520" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/d36c56c991beb1bb731801106e83e2f8/fd2679f8ba505f8c-45/s500x750/a0467286c07f43beda930d11e81ecf5489970f6c.jpg" width="451" height="611" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10107</span><span class="postList-date">7 March 2026</span></div></div><div class="postList-item" style="--format: 1.5154639175257731;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810429097688875008" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/768430b27b7b6857349dcdb014fa9fdd/c880a82a5e250ce0-94/s1280x1920/f6695a4858e7d67c2d98d0a62361c88127df9160.jpg" width="735" height="485" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10106</span><span class="postList-date">7 March 2026</span></div></div><div class="postList-item" style="--format: 0.6612758310871518;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810428871741702144" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/42e3ba051d3793e10023c0d7354c0180/8a7f05ed0fd5f598-b9/s1280x1920/3b895420ab866a7df1d30f972d499374b652232e.jpg" width="736" height="1113" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10105</span><span class="postList-date">7 March 2026</span></div></div><div class="postList-item" style="--format: 0.8745441283734501;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810428673842954240" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/26f3e8fd48ebb2a3dc364fb078d7a6e2/62f75f45c188ffbc-f3/s1280x1920/2a6238c163e3b172571d18fd75305eec87c3e164.jpg" width="1199" height="1371" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10104</span><span class="postList-date">7 March 2026</span></div></div><div class="postList-item" style="--format: 1;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810427646347476992" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/06608023ad2e8f13c815f25e68bc4904/5c55cc825b0e0831-11/s2048x3072/b0ff85f48bb11cb2c013200e7545a542a4c5260d.webp" width="1440" height="1440" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10103</span><span class="postList-date">7 March 2026</span></div></div><div class="postList-item" style="--format: 1.3992395437262357;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810426784903561216" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/d442841b5cb7cad5601e58714b3da1bc/4de28130e2e3fe96-7b/s1280x1920/c951d31bab1e081ec6af0d3c72bb40ae330e7d94.jpg" width="736" height="526" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10102</span><span class="postList-date">7 March 2026</span></div></div><div class="postList-item" style="--format: 0.6675;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810426084501913600" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/cfb3815f03105b9ceb434d0838538bb2/49c83152fb145e8b-98/s1280x1920/5285f21f9c1681aae6daa1df4fd96c7209d084e9.jpg" width="801" height="1200" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10101</span><span class="postList-date">7 March 2026</span></div></div><div class="postList-item" style="--format: 0.7635714285714286;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810262940878061568" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/138ba0f7f5ba634eb82a5866939042fc/60fc9d7c862df878-50/s1280x1920/0271824cfc935fe706a476015762ec884b50e114.jpg" width="1069" height="1400" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10100</span><span class="postList-date">5 March 2026</span></div></div><div class="postList-item" style="--format: 0.750375939849624;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810174344827371520" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/0283e9a38685001e08aa749ad4038bf7/093bcf9d693cc8b1-8d/s500x750/763f7cf56bd764cb1258ed2a53ddc43a96fd0fc1.jpg" width="499" height="665" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10099</span><span class="postList-date">4 March 2026</span></div></div><div class="postList-item" style="--format: 0.6666666666666666;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810174152410628096" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/946bf48a181b88958425a7accbb9d1b4/0113e9747909a670-24/s1280x1920/84e37ac51d8ccc3ef1791b7ebb6a132cb816c2e5.jpg" width="1000" height="1500" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10098</span><span class="postList-date">4 March 2026</span></div></div><div class="postList-item" style="--format: 0.79625;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810174057770270720" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/78326ebb0d2b24c9243081f2196733d6/828f56947bd0abca-bf/s1280x1920/3de7c94762b3f956809ef84742dfaa19ee442fbb.jpg" width="1274" height="1600" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10097</span><span class="postList-date">4 March 2026</span></div></div><div class="postList-item" style="--format: 1.1337448559670782;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810173736584151040" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/eac1d2ffa336a99ec4de3e9f2b55f8a6/9c2270008c5b15f9-8b/s640x960/367f62421240be6d347b355fe26aebec7989dd76.jpg" width="551" height="486" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10096</span><span class="postList-date">4 March 2026</span></div></div><div class="postList-item" style="--format: 1.5039370078740157;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810160416723435520" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/34590b0d582448e786521d4f89e11393/864ea5dbbbb9c0e7-78/s1280x1920/27821f5fe5544f08206a2cab382503c29c8d8ce5.jpg" width="955" height="635" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10095</span><span class="postList-date">4 March 2026</span></div></div><div class="postList-item" style="--format: 1.1396011396011396;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810096547756900353" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/562484783ac26092a876dbc8c8f32732/918148691441df1e-04/s1280x1920/fb36571d758a534aaaab0e58ea79cd2571d9e429.jpg" width="1200" height="1053" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10094</span><span class="postList-date">3 March 2026</span></div></div><div class="postList-item" style="--format: 1.2773826458036985;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810009735331020800" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/b8505d0bb13624abd275d91382398517/8bc1f311d546fb20-05/s1280x1920/490bd55c18ce05bceefde45c84025e70f163058f.jpg" width="898" height="703" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10093</span><span class="postList-date">2 March 2026</span></div></div><div class="postList-item" style="--format: 1.082753286929621;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/810009404360556544" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/58d46b7a8dc3cd5bf7930fd2d986cb57/ad3827a4521b32ab-fa/s2048x3072/aa67ceb1a1d8c42646bf9ef74410f441f54fa3b1.jpg" width="1400" height="1293" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10092</span><span class="postList-date">2 March 2026</span></div></div><div class="postList-item" style="--format: 0.75;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/809087111919697920" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/0fc35c2a9c62564f1edea613e1a8dd58/1a6aa430fa2a0f98-ec/s1280x1920/92b807850072e5e345096221d1f010fcfc28c4c1.jpg" width="1200" height="1600" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10091</span><span class="postList-date">20 February 2026</span></div></div><div class="postList-item" style="--format: 1.3357664233576643;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/808846507613798400" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/c4dd8099d10656e8a80322b640bbcc99/40ea74f92dbdd90f-6f/s1280x1920/cae563bc45871cf394128fc264b3bdeecbfdf7ec.jpg" width="915" height="685" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10090</span><span class="postList-date">17 February 2026</span></div></div><div class="postList-item" style="--format: 0.9104477611940298;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/808728904380612608" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/3b2cc0b780ed7fd4d0a6ad3467127296/6a0085603b707ea1-dd/s1280x1920/889808b509c80b7355dc0a4372f4e16bb990755c.jpg" width="793" height="871" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10089</span><span class="postList-date">16 February 2026</span></div></div><div class="postList-item" style="--format: 1.5981735159817352;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/808710155022860288" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/35f7b734a69f9be925588d43ee8adf6b/a6ab3d944e3989e4-e1/s1280x1920/7f4d7495a583002860c5cea38eace7b2705267cd.jpg" width="700" height="438" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10088</span><span class="postList-date">16 February 2026</span></div></div><div class="postList-item" style="--format: 0.75;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/808710150646104064" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/3fb8fa633ae79f966871bc8f203f5b85/962a57592084d3fd-c1/s500x750/584b180aace9acdb01a343745abc19b5c1415961.jpg" width="450" height="600" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10087</span><span class="postList-date">16 February 2026</span></div></div><div class="postList-item" style="--format: 1.333710407239819;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/808710000876961792" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/7d95d33ce124acf5b3805ef3d0b6d40d/79ca19bb21b33970-fb/s1280x1920/77517bef6810b448d6b238523278c0a8409e34fc.jpg" width="1179" height="884" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10086</span><span class="postList-date">16 February 2026</span></div></div><div class="postList-item" style="--format: 0.681;"><a class="postList-anchor" href="https://research.nicholaschmidt.com/post/808347054349910016" target="_blank"><img class="postList-img" src="https://64.media.tumblr.com/f492734dd2e1d2563de1e00bcec8dff8/c34b257efd2acdd4-32/s1280x1920/27e5fbbfefbda47ff88c07a7faa3180cbe902d9b.jpg" width="681" height="1000" loading="lazy" alt=""></a><div class="postList-meta"><span class="postList-index">10085</span><span class="postList-date">12 February 2026</span></div></div></section>
+            <div class="sentinel"></div>
+        </main>
+        <footer>
+            <div class="status"></div>
+        </footer>
+    </body>
+</html>
