@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <meta name="veiwport" content="width=device-width,initial-scale=1">
+    <title>Research</title>
+    <meta name="description" content="A collection of research gathered by Nicholas Schmidt.">
+
+    <style>
+
+        /* Theme variables */
+
+        :root {
+
+            /* Spacing */
+            --pageMargin: 1rem;
+            --minColWidth: 10lh;
+            --columnSpacing: 2lh;
+            --rowSpacing: 3lh;
+            --captionSpacing: 1lh;
+
+            /* Color*/
+            --color-surface: rgb(255 255 255);
+            --color-surfaceContainer: rgb(245 245 245);
+            --color-onSurface: rgb(0 0 0);
+            --color-scrim: rgb(255 255 255);
+
+            /*ETC*/
+            --opacity-scrim: .75;
+        }
+
+        /* Reset */
+
+        *, ::after, ::before {
+            box-sizing: border-box;
+        }
+
+        html {
+            text-size-adjust: none;
+            -moz-text-size-adjust: none;
+            -webkit-text-size-adjust: none;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        body {
+            min-height: 100vh;
+            height: 100%;
+        }
+
+        blockquote, body, button, dd, dl, figcaption, figure, h1, h2, h3, h4, h5, h6, li, ol, p, ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font: inherit
+        }
+
+        li, ol, ul {
+            list-style-type: none;
+        }
+
+        a:focus, button:focus {
+            /*outline: none*/
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        input, button, textarea, select {
+            font: inherit;
+        }
+
+        button {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: 0 0;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        img {
+            max-inline-size: 100%;
+            block-size: auto;
+            vertical-align: middle
+        }
+
+        /* Global defaults */
+
+        html {
+            font-size: 87.5%;
+        }
+
+        body {
+            font: 400 100% / 1.2142857143 arial, helvetica, sans-serif;
+            background-color: var(--color-surface);
+            color: var(--color-onSurface);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: var(--pageMargin);
+            row-gap: 4lh;
+        }
+
+        ::-moz-selection {
+            color: var(--color-surface);
+            background: var(--color-onSurface);
+        }
+
+        ::selection {
+            color: var(--color-surface);
+            background: var(--color-onSurface);
+        }
+
+        /* Global componets */
+
+        .siteNav {
+            max-width: 30rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            row-gap: 1lh;
+        }
+
+        .siteTitle-link {
+            background-color: var(--color-onSurface);
+            color: var(--color-surface);
+        }
+
+        .navList-link:hover {
+            font-style: italic;
+        }
+
+        /* Index componets */
+
+        .index {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .index-list {
+            display: grid;
+            align-items: center;
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--minColWidth)), 1fr));
+            gap: var(--rowSpacing) var(--columnSpacing);
+        }
+
+        .index-status {
+            margin-block-start: auto;
+            padding-block-start: 4lh;
+            height: 5lh;
+        }
+
+        /* Card componets */
+
+        .card-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            row-gap: var(--captionSpacing);
+        }
+
+        .card-anchor {
+            display: block;
+            inline-size: calc(100% * min(1, var(--format) * 1));
+        }
+
+        .card-img {
+            background-color: var(--color-surfaceContainer);
+        }
+
+        .card-meta {
+            text-align: center;
+        }
+
+        .card-date {
+            display: none;
+        }
+
+        .card-anchor:hover ~ .card-meta > .card-index,
+        .card-anchor:focus ~ .card-meta > .card-index {
+            display: none;
+        }
+
+        .card-anchor:hover ~ .card-meta > .card-date,
+        .card-anchor:focus ~ .card-meta > .card-date {
+            display: block
+        }
+
+        body:has(.lightbox[open]) .card-date {
+            display: none !important;
+        }
+
+        body:has(.lightbox[open]) .card-index {
+            display: block !important;
+        }
+
+        /* Lightbox components */
+
+        .lightbox {
+            inset-inline: 0;
+            inline-size: 100%;
+            block-size: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            border: 0;
+            padding: 0;
+            background-color: transparent;
+            inset-block: 0;
+            max-block-size: 85vh;
+            max-inline-size: 85vw;
+            overflow: visible;
+            cursor: pointer;
+        }
+
+        .lightbox::backdrop {
+            background-color: var(--color-scrim);
+            opacity: var(--opacity-scrim);
+        }
+
+        .lightbox[open] {
+            display: flex;
+        }
+
+        body:has(.lightbox[open]) {
+            overflow: hidden;
+        }
+
+        .lightbox-anchor {
+            cursor: default;
+            inline-size: fit-content;
+            block-size: fit-content;
+        }
+
+        .lightbox-img {
+            max-block-size: 100%;
+            max-inline-size: 100%;
+            min-block-size: auto;
+            min-inline-size: auto;
+            block-size: auto;
+            inline-size: auto;
+            position: relative;
+            vertical-align: middle;
+            background-color: var(--color-surfaceContainer);
+        }
+
+        .lightbox-closeBtn {
+            position: fixed;
+            inset-block-start: var(--pageMargin);
+            inset-inline-end: var(--pageMargin);
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .lightbox-closeBtn:focus {
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="siteNav">
+        <h1 class="siteTitle"><a class="siteTitle-link" href="">Research</a></h1>
+        <p class="siteDescription">A collection of research gathered by Nicholas Schmidt.</p>
+        <ul class="navList">
+            <li class="navList-item"><a href="https://alps.llc/" class="navList-link">Office</a></li>
+            <li class="navList-item"><a href="https://nicholaschmidt.com/" class="navList-link">Personal</a></li>
+            <li class="navList-item"><a href="https://la-prairie.nicholaschmidt.com/" class="navList-link">Writing</a></li>
+            <li class="navList-item"><a href="mailto:nicholas@nicholaschmidt.com" class="navList-link">Contact</a></li>
+        </ul>
+    </nav>
+    <main class="index">
+        <div class="index-list"></div>
+        <div class="index-sentinel"></div>
+        <div class="index-status"></div>
+    </main>
+    <!-- TODO: set up permalink page system -->
+    <dialog class="lightbox" closedby="closerequest">
+        <a class="lightbox-anchor" href="/" target="_blank">
+            <img class="lightbox-img">
+        </a>
+        <button class="lightbox-closeBtn">
+            Close
+        </button>
+    </dialog>
+    <script>
+        const pageIndex = 1;
+        const pageCount = 675;
+    </script>
+    <script src="http://research.nicholaschmidt.com/api/read/json?num=0"></script>
+    <script id='data'>
+    [{permalink:'https://research.nicholaschmidt.com/post/811270429880860672', date:"16 March 2026", npf: {"content":[{"type":"image","media":[{"media_key":"94bbbcc5973e0f25a3f1c0a425701831:10a3ac94a0c2777e-62","type":"image/jpeg","width":596,"height":595,"url":"https://64.media.tumblr.com/94bbbcc5973e0f25a3f1c0a425701831/10a3ac94a0c2777e-62/s640x960/b3917e8fcbe06d869528f53a5dc3323080e87514.jpg","has_original_dimensions":true},{"media_key":"94bbbcc5973e0f25a3f1c0a425701831:10a3ac94a0c2777e-62","type":"image/jpeg","width":540,"height":539,"url":"https://64.media.tumblr.com/94bbbcc5973e0f25a3f1c0a425701831/10a3ac94a0c2777e-62/s540x810/d12217821309c5b540db194c94d7b3dbeef3d900.jpg"},{"media_key":"94bbbcc5973e0f25a3f1c0a425701831:10a3ac94a0c2777e-62","type":"image/jpeg","width":500,"height":499,"url":"https://64.media.tumblr.com/94bbbcc5973e0f25a3f1c0a425701831/10a3ac94a0c2777e-62/s500x750/2769f984f5c03a25035f2e4a4ff05939838c38bf.jpg"},{"media_key":"94bbbcc5973e0f25a3f1c0a425701831:10a3ac94a0c2777e-62","type":"image/jpeg","width":400,"height":399,"url":"https://64.media.tumblr.com/94bbbcc5973e0f25a3f1c0a425701831/10a3ac94a0c2777e-62/s400x600/28e613c348efa2b65739ce2a7e51065ffee5cd7f.jpg"},{"media_key":"94bbbcc5973e0f25a3f1c0a425701831:10a3ac94a0c2777e-62","type":"image/jpeg","width":250,"height":250,"url":"https://64.media.tumblr.com/94bbbcc5973e0f25a3f1c0a425701831/10a3ac94a0c2777e-62/s250x400/05e71c84e7bf6f3ddac55dad4b6779c4785b14d5.jpg"},{"media_key":"94bbbcc5973e0f25a3f1c0a425701831:10a3ac94a0c2777e-62","type":"image/jpeg","width":100,"height":100,"url":"https://64.media.tumblr.com/94bbbcc5973e0f25a3f1c0a425701831/10a3ac94a0c2777e-62/s100x200/7a6476aea2b6bdc542fe47ab2f5ce994775a2f3f.jpg"},{"media_key":"94bbbcc5973e0f25a3f1c0a425701831:10a3ac94a0c2777e-62","type":"image/jpeg","width":75,"height":75,"url":"https://64.media.tumblr.com/94bbbcc5973e0f25a3f1c0a425701831/10a3ac94a0c2777e-62/s75x75_c1/7d0d39532846ca61b52f8fbc50b4d0613bee9a14.jpg","cropped":true}],"colors":{"c0":"4c4c4c","c1":"060606","c2":"2e2e2e","c3":"5c5c5c","c4":"f7f7f7"},"exif":{"Time":"1773687770"}}],"layout":[],"trail":[]}},{permalink:'https://research.nicholaschmidt.com/post/811269969209901056', date:"16 March 2026", npf: {"content":[{"type":"image","media":[{"media_key":"96f5f237fcaef06c97023cf8894dc56e:6a2470f3b44a3e43-1e","type":"image/jpeg","width":2048,"height":2642,"url":"https://64.media.tumblr.com/96f5f237fcaef06c97023cf8894dc56e/6a2470f3b44a3e43-1e/s2048x3072/e6d042b17e7c27ee1b4b302f64ba72cc3db588b7.jpg"},{"media_key":"96f5f237fcaef06c97023cf8894dc56e:6a2470f3b44a3e43-1e","type":"image/jpeg","width":1280,"height":1651,"url":"https://64.media.tumblr.com/96f5f237fcaef06c97023cf8894dc56e/6a2470f3b44a3e43-1e/s1280x1920/15a4670229a5dfcce38a7a9ddd7a893b485219ad.jpg"},{"media_key":"96f5f237fcaef06c97023cf8894dc56e:6a2470f3b44a3e43-1e","type":"image/jpeg","width":640,"height":825,"url":"https://64.media.tumblr.com/96f5f237fcaef06c97023cf8894dc56e/6a2470f3b44a3e43-1e/s640x960/2d93ebe2303e6991eb67a2c4291960f88e8ca0c8.jpg"},{"media_key":"96f5f237fcaef06c97023cf8894dc56e:6a2470f3b44a3e43-1e","type":"image/jpeg","width":540,"height":696,"url":"https://64.media.tumblr.com/96f5f237fcaef06c97023cf8894dc56e/6a2470f3b44a3e43-1e/s540x810/e403ff7233de968aac603e3cf5c66b55e9309c4d.jpg"},{"media_key":"96f5f237fcaef06c97023cf8894dc56e:6a2470f3b44a3e43-1e","type":"image/jpeg","width":500,"height":645,"url":"https://64.media.tumblr.com/96f5f237fcaef06c97023cf8894dc56e/6a2470f3b44a3e43-1e/s500x750/664db85aa6af19868c1ba4cfb0f7ef38d0208ab6.jpg"},{"media_key":"96f5f237fcaef06c97023cf8894dc56e:6a2470f3b44a3e43-1e","type":"image/jpeg","width":400,"height":516,"url":"https://64.media.tumblr.com/96f5f237fcaef06c97023cf8894dc56e/6a2470f3b44a3e43-1e/s400x600/9d286e25cde63e3d1332fdb78aea77c967d9c39c.jpg"},{"media_key":"96f5f237fcaef06c97023cf8894dc56e:6a2470f3b44a3e43-1e","type":"image/jpeg","width":250,"height":322,"url":"https://64.media.tumblr.com/96f5f237fcaef06c97023cf8894dc56e/6a2470f3b44a3e43-1e/s250x400/7675da5e02f4fb56dc1f7e011ce2ddc134c70646.jpg"},{"media_key":"96f5f237fcaef06c97023cf8894dc56e:6a2470f3b44a3e43-1e","type":"image/jpeg","width":100,"height":129,"url":"https://64.media.tumblr.com/96f5f237fcaef06c97023cf8894dc56e/6a2470f3b44a3e43-1e/s100x200/5af58d13194b0c8bd9b4b9f10ad7013a78888136.jpg"},{"media_key":"96f5f237fcaef06c97023cf8894dc56e:6a2470f3b44a3e43-1e","type":"image/jpeg","width":75,"height":75,"url":"https://64.media.tumblr.com/96f5f237fcaef06c97023cf8894dc56e/6a2470f3b44a3e43-1e/s75x75_c1/ba694b53c166916425d0a16bb21595caea214c73.jpg","cropped":true}],"colors":{"c0":"210e09","c1":"523626","c2":"7c8d3c","c3":"374215","c4":"96675a"},"exif":{"Time":1366231221}}],"layout":[],"trail":[]}},{permalink:'https://research.nicholaschmidt.com/post/811267953430544384', date:"16 March 2026", npf: {"content":[{"type":"image","media":[{"media_key":"388f81bc6d9b8bc289d4e4cd05bd1f15:7dddfffd11a8b025-d8","type":"image/jpeg","width":1400,"height":1791,"url":"https://64.media.tumblr.com/388f81bc6d9b8bc289d4e4cd05bd1f15/7dddfffd11a8b025-d8/s2048x3072/50ad25ac32fa5c6543a7b804c5ac5b292cd8a3d9.jpg","has_original_dimensions":true},{"media_key":"388f81bc6d9b8bc289d4e4cd05bd1f15:7dddfffd11a8b025-d8","type":"image/jpeg","width":1280,"height":1637,"url":"https://64.media.tumblr.com/388f81bc6d9b8bc289d4e4cd05bd1f15/7dddfffd11a8b025-d8/s1280x1920/f96d250d30025e48a50123ef5efcdd6b2629d2f2.jpg"},{"media_key":"388f81bc6d9b8bc289d4e4cd05bd1f15:7dddfffd11a8b025-d8","type":"image/jpeg","width":640,"height":819,"url":"https://64.media.tumblr.com/388f81bc6d9b8bc289d4e4cd05bd1f15/7dddfffd11a8b025-d8/s640x960/be9baeb35e42a273c8c7bb255f184e00609d79ae.jpg"},{"media_key":"388f81bc6d9b8bc289d4e4cd05bd1f15:7dddfffd11a8b025-d8","type":"image/jpeg","width":540,"height":691,"url":"https://64.media.tumblr.com/388f81bc6d9b8bc289d4e4cd05bd1f15/7dddfffd11a8b025-d8/s540x810/6ac57262bdf032e8286cb8a24a84628a2ab0715a.jpg"},{"media_key":"388f81bc6d9b8bc289d4e4cd05bd1f15:7dddfffd11a8b025-d8","type":"image/jpeg","width":500,"height":640,"url":"https://64.media.tumblr.com/388f81bc6d9b8bc289d4e4cd05bd1f15/7dddfffd11a8b025-d8/s500x750/9db3ea822101749047b0477e534a12415df4b7ac.jpg"},{"media_key":"388f81bc6d9b8bc289d4e4cd05bd1f15:7dddfffd11a8b025-d8","type":"image/jpeg","width":400,"height":512,"url":"https://64.media.tumblr.com/388f81bc6d9b8bc289d4e4cd05bd1f15/7dddfffd11a8b025-d8/s400x600/a301ec2e8a8f695d2ef7ad6d21df243924920b8a.jpg"},{"media_key":"388f81bc6d9b8bc289d4e4cd05bd1f15:7dddfffd11a8b025-d8","type":"image/jpeg","width":250,"height":320,"url":"https://64.media.tumblr.com/388f81bc6d9b8bc289d4e4cd05bd1f15/7dddfffd11a8b025-d8/s250x400/f8a9d37be0ff6b0e3b13c66bb8f6c629bac843e7.jpg"},{"media_key":"388f81bc6d9b8bc289d4e4cd05bd1f15:7dddfffd11a8b025-d8","type":"image/jpeg","width":100,"height":128,"url":"https://64.media.tumblr.com/388f81bc6d9b8bc289d4e4cd05bd1f15/7dddfffd11a8b025-d8/s100x200/1fe604ceab17da2ad625e4d2f772456094edee2e.jpg"},{"media_key":"388f81bc6d9b8bc289d4e4cd05bd1f15:7dddfffd11a8b025-d8","type":"image/jpeg","width":75,"height":75,"url":"https://64.media.tumblr.com/388f81bc6d9b8bc289d4e4cd05bd1f15/7dddfffd11a8b025-d8/s75x75_c1/fd60905528c7955ad1762969f95440486ed32c97.jpg","cropped":true}],"colors":{"c0":"2c1a18","c1":"c09b74","c2":"34241c","c3":"423025","c4":"e8e1df"},"exif":{"Time":"1773685408"}}],"layout":[],"trail":[]}},{permalink:'https://research.nicholaschmidt.com/post/811267403179753472', date:"16 March 2026", npf: {"content":[{"type":"image","media":[{"media_key":"36814ff73b2d4b427625a2f7418e8f4e:eb023398c96b77e0-56","type":"image/jpeg","width":1400,"height":1013,"url":"https://64.media.tumblr.com/36814ff73b2d4b427625a2f7418e8f4e/eb023398c96b77e0-56/s2048x3072/893ee682e6f19efe44474c6b7a9d735b213df690.jpg","has_original_dimensions":true},{"media_key":"36814ff73b2d4b427625a2f7418e8f4e:eb023398c96b77e0-56","type":"image/jpeg","width":1280,"height":926,"url":"https://64.media.tumblr.com/36814ff73b2d4b427625a2f7418e8f4e/eb023398c96b77e0-56/s1280x1920/9998efa15ff578b323364f841633c4fea5228963.jpg"},{"media_key":"36814ff73b2d4b427625a2f7418e8f4e:eb023398c96b77e0-56","type":"image/jpeg","width":640,"height":463,"url":"https://64.media.tumblr.com/36814ff73b2d4b427625a2f7418e8f4e/eb023398c96b77e0-56/s640x960/236522694aff73aa4c138d16256e05ab234ea935.jpg"},{"media_key":"36814ff73b2d4b427625a2f7418e8f4e:eb023398c96b77e0-56","type":"image/jpeg","width":540,"height":391,"url":"https://64.media.tumblr.com/36814ff73b2d4b427625a2f7418e8f4e/eb023398c96b77e0-56/s540x810/589ac1be568f23e44820c0ae1d185283e9afdd84.jpg"},{"media_key":"36814ff73b2d4b427625a2f7418e8f4e:eb023398c96b77e0-56","type":"image/jpeg","width":500,"height":362,"url":"https://64.media.tumblr.com/36814ff73b2d4b427625a2f7418e8f4e/eb023398c96b77e0-56/s500x750/18a3349026da0b0f685f186a8c2d8dcc0f75253a.jpg"},{"media_key":"36814ff73b2d4b427625a2f7418e8f4e:eb023398c96b77e0-56","type":"image/jpeg","width":400,"height":289,"url":"https://64.media.tumblr.com/36814ff73b2d4b427625a2f7418e8f4e/eb023398c96b77e0-56/s400x600/7de214e2bf30ac7dae43b7f0ccb2865f1c055461.jpg"},{"media_key":"36814ff73b2d4b427625a2f7418e8f4e:eb023398c96b77e0-56","type":"image/jpeg","width":250,"height":181,"url":"https://64.media.tumblr.com/36814ff73b2d4b427625a2f7418e8f4e/eb023398c96b77e0-56/s250x400/17d9db48cb2fa3a5d2ab59fed9e12914b1012af7.jpg"},{"media_key":"36814ff73b2d4b427625a2f7418e8f4e:eb023398c96b77e0-56","type":"image/jpeg","width":100,"height":72,"url":"https://64.media.tumblr.com/36814ff73b2d4b427625a2f7418e8f4e/eb023398c96b77e0-56/s100x200/7ec5fc15e507206a7255c74677aa67af8206c18e.jpg"},{"media_key":"36814ff73b2d4b427625a2f7418e8f4e:eb023398c96b77e0-56","type":"image/jpeg","width":75,"height":75,"url":"https://64.media.tumblr.com/36814ff73b2d4b427625a2f7418e8f4e/eb023398c96b77e0-56/s75x75_c1/a40eeac9d656256f7fb0f755446d5aa5ebaf4753.jpg","cropped":true}],"colors":{"c0":"e6dcce","c1":"8c847e","c2":"040403","c3":"736c67","c4":"1d1b18"},"exif":{"Time":"1773684883"}}],"layout":[],"trail":[]}},{permalink:'https://research.nicholaschmidt.com/post/811267254212853760', date:"16 March 2026", npf: {"content":[{"type":"image","media":[{"media_key":"641a829c7fa2f436e3c5c9344fe40ac6:307634ce0efb982c-0d","type":"image/jpeg","width":1200,"height":946,"url":"https://64.media.tumblr.com/641a829c7fa2f436e3c5c9344fe40ac6/307634ce0efb982c-0d/s1280x1920/625653da61a69d5643b4b40349c59c30e35ab2d2.jpg","has_original_dimensions":true},{"media_key":"641a829c7fa2f436e3c5c9344fe40ac6:307634ce0efb982c-0d","type":"image/jpeg","width":640,"height":505,"url":"https://64.media.tumblr.com/641a829c7fa2f436e3c5c9344fe40ac6/307634ce0efb982c-0d/s640x960/c0b2baa35828f3c958fc50c224213096b625a85a.jpg"},{"media_key":"641a829c7fa2f436e3c5c9344fe40ac6:307634ce0efb982c-0d","type":"image/jpeg","width":540,"height":426,"url":"https://64.media.tumblr.com/641a829c7fa2f436e3c5c9344fe40ac6/307634ce0efb982c-0d/s540x810/3122eb518746fdfa6764d61a8e63aff145fb81d1.jpg"},{"media_key":"641a829c7fa2f436e3c5c9344fe40ac6:307634ce0efb982c-0d","type":"image/jpeg","width":500,"height":394,"url":"https://64.media.tumblr.com/641a829c7fa2f436e3c5c9344fe40ac6/307634ce0efb982c-0d/s500x750/7e55dd8b641210ac77dc119cf45d5d9fbc5649ce.jpg"},{"media_key":"641a829c7fa2f436e3c5c9344fe40ac6:307634ce0efb982c-0d","type":"image/jpeg","width":400,"height":315,"url":"https://64.media.tumblr.com/641a829c7fa2f436e3c5c9344fe40ac6/307634ce0efb982c-0d/s400x600/41ae66e97d30b7e9d5da59e7d7ecb9cfaaef56c5.jpg"},{"media_key":"641a829c7fa2f436e3c5c9344fe40ac6:307634ce0efb982c-0d","type":"image/jpeg","width":250,"height":197,"url":"https://64.media.tumblr.com/641a829c7fa2f436e3c5c9344fe40ac6/307634ce0efb982c-0d/s250x400/f5f7235ebdbcbb2d80803b22aedb154e985ee9b1.jpg"},{"media_key":"641a829c7fa2f436e3c5c9344fe40ac6:307634ce0efb982c-0d","type":"image/jpeg","width":100,"height":79,"url":"https://64.media.tumblr.com/641a829c7fa2f436e3c5c9344fe40ac6/307634ce0efb982c-0d/s100x200/a79eb927d0f1229a51760396badfd307c0647100.jpg"},{"media_key":"641a829c7fa2f436e3c5c9344fe40ac6:307634ce0efb982c-0d","type":"image/jpeg","width":75,"height":75,"url":"https://64.media.tumblr.com/641a829c7fa2f436e3c5c9344fe40ac6/307634ce0efb982c-0d/s75x75_c1/ec68c89c1b9a89578923e24505c03ca001cec4dc.jpg","cropped":true}],"colors":{"c0":"412313","c1":"1e0805","c2":"3e2725","c3":"d7e2ea","c4":"95749d"},"exif":{"Time":"1773684743"}}],"layout":[],"trail":[]}},{permalink:'https://research.nicholaschmidt.com/post/811264345720881152', date:"16 March 2026", npf: {"content":[{"type":"image","media":[{"media_key":"d052c8f0490a7fd78265fafb0686b12c:dcb847f4ace54d7a-43","type":"image/png","width":720,"height":718,"url":"https://64.media.tumblr.com/d052c8f0490a7fd78265fafb0686b12c/dcb847f4ace54d7a-43/s1280x1920/fb1bf59976858e96d09070013511170c337b4f13.png","has_original_dimensions":true},{"media_key":"d052c8f0490a7fd78265fafb0686b12c:dcb847f4ace54d7a-43","type":"image/png","width":640,"height":638,"url":"https://64.media.tumblr.com/d052c8f0490a7fd78265fafb0686b12c/dcb847f4ace54d7a-43/s640x960/a10b1637b8cefc6987908d0112920bb3e5bcc273.png"},{"media_key":"d052c8f0490a7fd78265fafb0686b12c:dcb847f4ace54d7a-43","type":"image/png","width":540,"height":539,"url":"https://64.media.tumblr.com/d052c8f0490a7fd78265fafb0686b12c/dcb847f4ace54d7a-43/s540x810/015090547a82dc13bccfd2568965591ce4105e28.png"},{"media_key":"d052c8f0490a7fd78265fafb0686b12c:dcb847f4ace54d7a-43","type":"image/png","width":500,"height":499,"url":"https://64.media.tumblr.com/d052c8f0490a7fd78265fafb0686b12c/dcb847f4ace54d7a-43/s500x750/211955719c867967d6aaa39bf9f329706b4f121c.png"},{"media_key":"d052c8f0490a7fd78265fafb0686b12c:dcb847f4ace54d7a-43","type":"image/png","width":400,"height":399,"url":"https://64.media.tumblr.com/d052c8f0490a7fd78265fafb0686b12c/dcb847f4ace54d7a-43/s400x600/52ac01e9a7338245f78d56ee038014c58ebee264.png"},{"media_key":"d052c8f0490a7fd78265fafb0686b12c:dcb847f4ace54d7a-43","type":"image/png","width":250,"height":249,"url":"https://64.media.tumblr.com/d052c8f0490a7fd78265fafb0686b12c/dcb847f4ace54d7a-43/s250x400/de1a2c51e6ce9b17f67dc56d0a5a4f3e61e6bb21.png"},{"media_key":"d052c8f0490a7fd78265fafb0686b12c:dcb847f4ace54d7a-43","type":"image/png","width":100,"height":100,"url":"https://64.media.tumblr.com/d052c8f0490a7fd78265fafb0686b12c/dcb847f4ace54d7a-43/s100x200/5d032f9aae7bfd434e953ad2bf1d417125391f5f.png"},{"media_key":"d052c8f0490a7fd78265fafb0686b12c:dcb847f4ace54d7a-43","type":"image/png","width":75,"height":75,"url":"https://64.media.tumblr.com/d052c8f0490a7fd78265fafb0686b12c/dcb847f4ace54d7a-43/s75x75_c1/533c60bd610b9a309334f400db4a45d7d98a9922.png","cropped":true}],"colors":{"c0":"050506","c1":"edede4","c2":"3b1b12","c3":"81432f","c4":"d4d4c9"}}],"layout":[],"trail":[]}},{permalink:'https://research.nicholaschmidt.com/post/811260380086173696', date:"16 March 2026", npf: {"content":[{"type":"image","media":[{"media_key":"6dafa6f6037e99469d49cfec1e9efdd8:fbeb0b3b2099e14b-9c","type":"image/jpeg","width":700,"height":465,"url":"https://64.media.tumblr.com/6dafa6f6037e99469d49cfec1e9efdd8/fbeb0b3b2099e14b-9c/s1280x1920/4cd1a9be579a08a1bb4ccd0d74dc8bac5c54c451.jpg","has_original_dimensions":true},{"media_key":"6dafa6f6037e99469d49cfec1e9efdd8:fbeb0b3b2099e14b-9c","type":"image/jpeg","width":640,"height":425,"url":"https://64.media.tumblr.com/6dafa6f6037e99469d49cfec1e9efdd8/fbeb0b3b2099e14b-9c/s640x960/3365bce0eda76404ae113bd91efb7ffbff4e62dd.jpg"},{"media_key":"6dafa6f6037e99469d49cfec1e9efdd8:fbeb0b3b2099e14b-9c","type":"image/jpeg","width":540,"height":359,"url":"https://64.media.tumblr.com/6dafa6f6037e99469d49cfec1e9efdd8/fbeb0b3b2099e14b-9c/s540x810/3f0e94c5e4b630f6d83888bc7bfee4ce07c24898.jpg"},{"media_key":"6dafa6f6037e99469d49cfec1e9efdd8:fbeb0b3b2099e14b-9c","type":"image/jpeg","width":500,"height":332,"url":"https://64.media.tumblr.com/6dafa6f6037e99469d49cfec1e9efdd8/fbeb0b3b2099e14b-9c/s500x750/8989f0821d03462ef23ee7104c2e175c6da96939.jpg"},{"media_key":"6dafa6f6037e99469d49cfec1e9efdd8:fbeb0b3b2099e14b-9c","type":"image/jpeg","width":400,"height":266,"url":"https://64.media.tumblr.com/6dafa6f6037e99469d49cfec1e9efdd8/fbeb0b3b2099e14b-9c/s400x600/1328a437dd146c1168b65c13fd1e7d4e92083463.jpg"},{"media_key":"6dafa6f6037e99469d49cfec1e9efdd8:fbeb0b3b2099e14b-9c","type":"image/jpeg","width":250,"height":166,"url":"https://64.media.tumblr.com/6dafa6f6037e99469d49cfec1e9efdd8/fbeb0b3b2099e14b-9c/s250x400/e9c69df735319d3ae8eddc2de01450b68c370a21.jpg"},{"media_key":"6dafa6f6037e99469d49cfec1e9efdd8:fbeb0b3b2099e14b-9c","type":"image/jpeg","width":100,"height":66,"url":"https://64.media.tumblr.com/6dafa6f6037e99469d49cfec1e9efdd8/fbeb0b3b2099e14b-9c/s100x200/bb70e77b974ea8ff00741a6a410d5eeb1ee5788c.jpg"},{"media_key":"6dafa6f6037e99469d49cfec1e9efdd8:fbeb0b3b2099e14b-9c","type":"image/jpeg","width":75,"height":75,"url":"https://64.media.tumblr.com/6dafa6f6037e99469d49cfec1e9efdd8/fbeb0b3b2099e14b-9c/s75x75_c1/236e580d9d5c38f35516c1803876aa022100f54b.jpg","cropped":true}],"exif":{"Time":"1773678186"}}],"layout":[],"trail":[]}},{permalink:'https://research.nicholaschmidt.com/post/810706461952000000', date:"10 March 2026", npf: {"content":[{"type":"image","media":[{"media_key":"a9f29cc962df402795d7b48d6fd9f83a:3a2fbfc3e5f52dc7-dd","type":"image/jpeg","width":406,"height":344,"url":"https://64.media.tumblr.com/a9f29cc962df402795d7b48d6fd9f83a/3a2fbfc3e5f52dc7-dd/s500x750/ec626cc8ca0692a536d93a2620b9ae426cddaef2.jpg","has_original_dimensions":true},{"media_key":"a9f29cc962df402795d7b48d6fd9f83a:3a2fbfc3e5f52dc7-dd","type":"image/jpeg","width":400,"height":339,"url":"https://64.media.tumblr.com/a9f29cc962df402795d7b48d6fd9f83a/3a2fbfc3e5f52dc7-dd/s400x600/3a57c0e870d6428098122af4079219a06d6a2002.jpg"},{"media_key":"a9f29cc962df402795d7b48d6fd9f83a:3a2fbfc3e5f52dc7-dd","type":"image/jpeg","width":250,"height":212,"url":"https://64.media.tumblr.com/a9f29cc962df402795d7b48d6fd9f83a/3a2fbfc3e5f52dc7-dd/s250x400/96d1e2435a9558e14f0b6a819805d6737ac2dd8f.jpg"},{"media_key":"a9f29cc962df402795d7b48d6fd9f83a:3a2fbfc3e5f52dc7-dd","type":"image/jpeg","width":100,"height":85,"url":"https://64.media.tumblr.com/a9f29cc962df402795d7b48d6fd9f83a/3a2fbfc3e5f52dc7-dd/s100x200/b90c1f92fe04abbe83123d9d360f12da2cc18e15.jpg"},{"media_key":"a9f29cc962df402795d7b48d6fd9f83a:3a2fbfc3e5f52dc7-dd","type":"image/jpeg","width":75,"height":75,"url":"https://64.media.tumblr.com/a9f29cc962df402795d7b48d6fd9f83a/3a2fbfc3e5f52dc7-dd/s75x75_c1/792b1dd6858cc09a34aed0f523a1393498ba0d12.jpg","cropped":true}],"colors":{"c0":"d50309","c1":"2c0308","c2":"260206","c3":"944042","c4":"ce0208"},"exif":{"Time":"1773149929"}}],"layout":[],"trail":[]}},{permalink:'https://research.nicholaschmidt.com/post/810705730622668800', date:"10 March 2026", npf: {"content":[{"type":"image","media":[{"media_key":"8115c0b7f1d89de1d00bbf451fbb725e:b7b8c4509abd5abb-5e","type":"image/jpeg","width":1053,"height":1658,"url":"https://64.media.tumblr.com/8115c0b7f1d89de1d00bbf451fbb725e/b7b8c4509abd5abb-5e/s1280x1920/0329622b16f01f1facc5001b9f9eb5d535d7e9d4.jpg","has_original_dimensions":true},{"media_key":"8115c0b7f1d89de1d00bbf451fbb725e:b7b8c4509abd5abb-5e","type":"image/jpeg","width":610,"height":960,"url":"https://64.media.tumblr.com/8115c0b7f1d89de1d00bbf451fbb725e/b7b8c4509abd5abb-5e/s640x960/796f5c6bbdb94b8c21cb81d92468c7bb18c234c8.jpg"},{"media_key":"8115c0b7f1d89de1d00bbf451fbb725e:b7b8c4509abd5abb-5e","type":"image/jpeg","width":514,"height":810,"url":"https://64.media.tumblr.com/8115c0b7f1d89de1d00bbf451fbb725e/b7b8c4509abd5abb-5e/s540x810/d4bb9f641e5d49300eac48c3175c171bd90d777d.jpg"},{"media_key":"8115c0b7f1d89de1d00bbf451fbb725e:b7b8c4509abd5abb-5e","type":"image/jpeg","width":476,"height":750,"url":"https://64.media.tumblr.com/8115c0b7f1d89de1d00bbf451fbb725e/b7b8c4509abd5abb-5e/s500x750/f5909bca190f959ffb2636229dd872ffa12440dc.jpg"},{"media_key":"8115c0b7f1d89de1d00bbf451fbb725e:b7b8c4509abd5abb-5e","type":"image/jpeg","width":381,"height":600,"url":"https://64.media.tumblr.com/8115c0b7f1d89de1d00bbf451fbb725e/b7b8c4509abd5abb-5e/s400x600/1cf74b9189ed6f2670adabc43abb494b1ed60c1e.jpg"},{"media_key":"8115c0b7f1d89de1d00bbf451fbb725e:b7b8c4509abd5abb-5e","type":"image/jpeg","width":250,"height":394,"url":"https://64.media.tumblr.com/8115c0b7f1d89de1d00bbf451fbb725e/b7b8c4509abd5abb-5e/s250x400/e7566a03dd0e8dd82fa53f062339f9d0bfc070b7.jpg"},{"media_key":"8115c0b7f1d89de1d00bbf451fbb725e:b7b8c4509abd5abb-5e","type":"image/jpeg","width":100,"height":157,"url":"https://64.media.tumblr.com/8115c0b7f1d89de1d00bbf451fbb725e/b7b8c4509abd5abb-5e/s100x200/146ff8209220e082ab8239d53bce4ef4cc5ddd9a.jpg"},{"media_key":"8115c0b7f1d89de1d00bbf451fbb725e:b7b8c4509abd5abb-5e","type":"image/jpeg","width":75,"height":75,"url":"https://64.media.tumblr.com/8115c0b7f1d89de1d00bbf451fbb725e/b7b8c4509abd5abb-5e/s75x75_c1/0e538360e14d076f39562b7fb3e6b59a95c52711.jpg","cropped":true}],"colors":{"c0":"857a72","c1":"736c67","c2":"d7c2ab","c3":"605854","c4":"0e1010"},"exif":{"Time":"1773149230"}}],"layout":[],"trail":[]}},{permalink:'https://research.nicholaschmidt.com/post/810437792104677376', date:"7 March 2026", npf: {"content":[{"type":"image","media":[{"media_key":"af95ac458cc4b74a356cf1cfa220dfc2:45b4fe6a0ae41a6a-b6","type":"image/jpeg","width":500,"height":750,"url":"https://64.media.tumblr.com/af95ac458cc4b74a356cf1cfa220dfc2/45b4fe6a0ae41a6a-b6/s500x750/8026ffa699687a6a2d1ee237999c484143659961.jpg","has_original_dimensions":true},{"media_key":"af95ac458cc4b74a356cf1cfa220dfc2:45b4fe6a0ae41a6a-b6","type":"image/jpeg","width":400,"height":600,"url":"https://64.media.tumblr.com/af95ac458cc4b74a356cf1cfa220dfc2/45b4fe6a0ae41a6a-b6/s400x600/6af74df16a522bfa9b66ca7c83ddd720f3ec5491.jpg"},{"media_key":"af95ac458cc4b74a356cf1cfa220dfc2:45b4fe6a0ae41a6a-b6","type":"image/jpeg","width":250,"height":375,"url":"https://64.media.tumblr.com/af95ac458cc4b74a356cf1cfa220dfc2/45b4fe6a0ae41a6a-b6/s250x400/9ed47749c08e6b11273e162b4cf74734c56c1af8.jpg"},{"media_key":"af95ac458cc4b74a356cf1cfa220dfc2:45b4fe6a0ae41a6a-b6","type":"image/jpeg","width":100,"height":150,"url":"https://64.media.tumblr.com/af95ac458cc4b74a356cf1cfa220dfc2/45b4fe6a0ae41a6a-b6/s100x200/2528b3efb3820fb452e2ce9d9e96c41da5a28c0f.jpg"},{"media_key":"af95ac458cc4b74a356cf1cfa220dfc2:45b4fe6a0ae41a6a-b6","type":"image/jpeg","width":75,"height":75,"url":"https://64.media.tumblr.com/af95ac458cc4b74a356cf1cfa220dfc2/45b4fe6a0ae41a6a-b6/s75x75_c1/d1a891ca33c4b13c634b8d37141c5f3a4e5ee6bd.jpg","cropped":true}],"colors":{"c0":"9f9d95","c1":"9e9c94","c2":"cecece","c3":"b9bcb7","c4":"626354"},"exif":{"Time":"1772893705"}}],"layout":[],"trail":[]}},{permalink:'https://research.nicholaschmidt.com/post/810437596947906560', date:"7 March 2026", npf: {"content":[{"type":"image","media":[{"media_key":"9d2e56cd7368a2c0b1b229797a855f85:2a16a74f7cc8765f-1e","type":"image/jpeg","width":736,"height":1121,"url":"https://64.media.tumblr.com/9d2e56cd7368a2c0b1b229797a855f85/2a16a74f7cc8765f-1e/s1280x1920/50085f0a678b4c2e52833d984f33e7a6dae7aa22.jpg","has_original_dimensions":true},{"media_key":"9d2e56cd7368a2c0b1b229797a855f85:2a16a74f7cc8765f-1e","type":"image/jpeg","width":630,"height":960,"url":"https://64.media.tumblr.com/9d2e56cd7368a2c0b1b229797a855f85/2a16a74f7cc8765f-1e/s640x960/8124b801c8aadf09a6c591ad3726623e1923ebad.jpg"},{"media_key":"9d2e56cd7368a2c0b1b229797a855f85:2a16a74f7cc8765f-1e","type":"image/jpeg","width":532,"height":810,"url":"https://64.media.tumblr.com/9d2e56cd7368a2c0b1b229797a855f85/2a16a74f7cc8765f-1e/s540x810/55d2ad2f1927e51246000be8c485db7e01be00c8.jpg"},{"media_key":"9d2e56cd7368a2c0b1b229797a855f85:2a16a74f7cc8765f-1e","type":"image/jpeg","width":492,"height":750,"url":"https://64.media.tumblr.com/9d2e56cd7368a2c0b1b229797a855f85/2a16a74f7cc8765f-1e/s500x750/191991fa97c68719e8577b5d9bca9e08d119f3a8.jpg"},{"media_key":"9d2e56cd7368a2c0b1b229797a855f85:2a16a74f7cc8765f-1e","type":"image/jpeg","width":394,"height":600,"url":"https://64.media.tumblr.com/9d2e56cd7368a2c0b1b229797a855f85/2a16a74f7cc8765f-1e/s400x600/695dc14bb0bdba7d8590e217751a4e4c8c1e8d47.jpg"},{"media_key":"9d2e56cd7368a2c0b1b229797a855f85:2a16a74f7cc8765f-1e","type":"image/jpeg","width":250,"height":381,"url":"https://64.media.tumblr.com/9d2e56cd7368a2c0b1b229797a855f85/2a16a74f7cc8765f-1e/s250x400/76de2b74dd615e4451c520251418b0b2a0d74387.jpg"},{"media_key":"9d2e56cd7368a2c0b1b229797a855f85:2a16a74f7cc8765f-1e","type":"image/jpeg","width":100,"height":152,"url":"https://64.media.tumblr.com/9d2e56cd7368a2c0b1b229797a855f85/2a16a74f7cc8765f-1e/s100x200/b26a62380e250fb4b03194b2ef1af89860b320ad.jpg"},{"media_key":"9d2e56cd7368a2c0b1b229797a855f85:2a16a74f7cc8765f-1e","type":"image/jpeg","width":75,"height":75,"url":"https://64.media.tumblr.com/9d2e56cd7368a2c0b1b229797a855f85/2a16a74f7cc8765f-1e/s75x75_c1/35847d3a6d2f3e6c931b00c5668dcf5328986836.jpg","cropped":true}],"colors":{"c0":"0e0b0a","c1":"d8d8d5","c2":"cececb","c3":"403a39","c4":"a5a49d"},"exif":{"Time":"1772893519"}}],"layout":[],"trail":[]}},{permalink:'https://research.nicholaschmidt.com/post/810437575746666497', date:"7 March 2026", npf: {"content":[{"type":"image","media":[{"media_key":"6e525beccfd4191c0d78a3bf4fac9596:74cc34a8b28dd217-19","type":"image/jpeg","width":1199,"height":907,"url":"https://64.media.tumblr.com/6e525beccfd4191c0d78a3bf4fac9596/74cc34a8b28dd217-19/s1280x1920/68b4593ef73abb8c84a1bca0a0e0db1d54266484.jpg","has_original_dimensions":true},{"media_key":"6e525beccfd4191c0d78a3bf4fac9596:74cc34a8b28dd217-19","type":"image/jpeg","width":640,"height":484,"url":"https://64.media.tumblr.com/6e525beccfd4191c0d78a3bf4fac9596/74cc34a8b28dd217-19/s640x960/bf147cff754be3f5afa8a9b4558676fa72a6515f.jpg"},{"media_key":"6e525beccfd4191c0d78a3bf4fac9596:74cc34a8b28dd217-19","type":"image/jpeg","width":540,"height":408,"url":"https://64.media.tumblr.com/6e525beccfd4191c0d78a3bf4fac9596/74cc34a8b28dd217-19/s540x810/71bbf1b7c1b20245cad4557aca04b536268b7377.jpg"},{"media_key":"6e525beccfd4191c0d78a3bf4fac9596:74cc34a8b28dd217-19","type":"image/jpeg","width":500,"height":378,"url":"https://64.media.tumblr.com/6e525beccfd4191c0d78a3bf4fac9596/74cc34a8b28dd217-19/s500x750/46655a2cb33b94e51142af9654b6e805b0103bfc.jpg"},{"media_key":"6e525beccfd4191c0d78a3bf4fac9596:74cc34a8b28dd217-19","type":"image/jpeg","width":400,"height":303,"url":"https://64.media.tumblr.com/6e525beccfd4191c0d78a3bf4fac9596/74cc34a8b28dd217-19/s400x600/1eb7fc727a8de1ea285320ec877aae8494efe983.jpg"},{"media_key":"6e525beccfd4191c0d78a3bf4fac9596:74cc34a8b28dd217-19","type":"image/jpeg","width":250,"height":189,"url":"https://64.media.tumblr.com/6e525beccfd4191c0d78a3bf4fac9596/74cc34a8b28dd217-19/s250x400/3105e7341a6d2a5cf8864d4c619366c6746c0756.jpg"},{"media_key":"6e525beccfd4191c0d78a3bf4fac9596:74cc34a8b28dd217-19","type":"image/jpeg","width":100,"height":76,"url":"https://64.media.tumblr.com/6e525beccfd4191c0d78a3bf4fac9596/74cc34a8b28dd217-19/s100x200/9a996f315a27c17dd2758c4d944402b8347ab0b5.jpg"},{"media_key":"6e525beccfd4191c0d78a3bf4fac9596:74cc34a8b28dd217-19","type":"image/jpeg","width":75,"height":75,"url":"https://64.media.tumblr.com/6e525beccfd4191c0d78a3bf4fac9596/74cc34a8b28dd217-19/s75x75_c1/aa56f77e2a39dedc324e700a013496a5adbff6a2.jpg","cropped":true}],"colors":{"c0":"0c0c0c","c1":"181818","c2":"404040","c3":"6d6d6d","c4":"b8b8b8"},"exif":{"Time":"1772893499"}}],"layout":[],"trail":[]}},{permalink:'https://research.nicholaschmidt.com/post/810437529154306048', date:"7 March 2026", npf: {"content":[{"type":"image","media":[{"media_key":"cc1fead34a7a27853f7e69a3e468dd77:7c74cffb8a3450e7-3e","type":"image/jpeg","width":736,"height":920,"url":"https://64.media.tumblr.com/cc1fead34a7a27853f7e69a3e468dd77/7c74cffb8a3450e7-3e/s1280x1920/31006e7ca01df40287ee4aacb991d33e1a337969.jpg","has_original_dimensions":true},{"media_key":"cc1fead34a7a27853f7e69a3e468dd77:7c74cffb8a3450e7-3e","type":"image/jpeg","width":640,"height":800,"url":"https://64.media.tumblr.com/cc1fead34a7a27853f7e69a3e468dd77/7c74cffb8a3450e7-3e/s640x960/8e6f1b556fff7f44c690121c1f6dd559ade44ea2.jpg"},{"media_key":"cc1fead34a7a27853f7e69a3e468dd77:7c74cffb8a3450e7-3e","type":"image/jpeg","width":540,"height":675,"url":"https://64.media.tumblr.com/cc1fead34a7a27853f7e69a3e468dd77/7c74cffb8a3450e7-3e/s540x810/87b68e2eabac9355c38a1d003b9cff4b11193051.jpg"},{"media_key":"cc1fead34a7a27853f7e69a3e468dd77:7c74cffb8a3450e7-3e","type":"image/jpeg","width":500,"height":625,"url":"https://64.media.tumblr.com/cc1fead34a7a27853f7e69a3e468dd77/7c74cffb8a3450e7-3e/s500x750/6e4e2198b6756df702633b8a196bcb291b8e3420.jpg"},{"media_key":"cc1fead34a7a27853f7e69a3e468dd77:7c74cffb8a3450e7-3e","type":"image/jpeg","width":400,"height":500,"url":"https://64.media.tumblr.com/cc1fead34a7a27853f7e69a3e468dd77/7c74cffb8a3450e7-3e/s400x600/fafa88308a9fbc55befc07c713a6a9caf100e448.jpg"},{"media_key":"cc1fead34a7a27853f7e69a3e468dd77:7c74cffb8a3450e7-3e","type":"image/jpeg","width":250,"height":313,"url":"https://64.media.tumblr.com/cc1fead34a7a27853f7e69a3e468dd77/7c74cffb8a3450e7-3e/s250x400/61ab3a1273e2ceddf2f94cb105c9ea7b816c3e0a.jpg"},{"media_key":"cc1fead34a7a27853f7e69a3e468dd77:7c74cffb8a3450e7-3e","type":"image/jpeg","width":100,"height":125,"url":"https://64.media.tumblr.com/cc1fead34a7a27853f7e69a3e468dd77/7c74cffb8a3450e7-3e/s100x200/5309475f0ce2a1d61351813c1db8548b0706a572.jpg"},{"media_key":"cc1fead34a7a27853f7e69a3e468dd77:7c74cffb8a3450e7-3e","type":"image/jpeg","width":75,"height":75,"url":"https://64.media.tumblr.com/cc1fead34a7a27853f7e69a3e468dd77/7c74cffb8a3450e7-3e/s75x75_c1/19ae45a4e44b79fbba291846551498748b01e803.jpg","cropped":true}],"colors":{"c0":"676e68","c1":"5d635e","c2":"010101","c3":"727a70","c4":"4c5351"},"exif":{"Time":"1772893455"}}],"layout":[],"trail":[]}},{permalink:'https://research.nicholaschmidt.com/post/810432015077883904', date:"7 March 2026", npf: {"content":[{"type":"image","media":[{"media_key":"8c02463926868dd01a4cb7565fd4f80c:a95924445089b3f1-cd","type":"image/jpeg","width":1024,"height":768,"url":"https://64.media.tumblr.com/8c02463926868dd01a4cb7565fd4f80c/a95924445089b3f1-cd/s1280x1920/b6c2cf083082bbc35953f8823a24e0eecd6a1370.jpg","has_original_dimensions":true},{"media_key":"8c02463926868dd01a4cb7565fd4f80c:a95924445089b3f1-cd","type":"image/jpeg","width":640,"height":480,"url":"https://64.media.tumblr.com/8c02463926868dd01a4cb7565fd4f80c/a95924445089b3f1-cd/s640x960/511137ce26e96c7c76e41a632a8bcf242fb9c45a.jpg"},{"media_key":"8c02463926868dd01a4cb7565fd4f80c:a95924445089b3f1-cd","type":"image/jpeg","width":540,"height":405,"url":"https://64.media.tumblr.com/8c02463926868dd01a4cb7565fd4f80c/a95924445089b3f1-cd/s540x810/084289b24d4ed5d28a182c01eb21c8c680496427.jpg"},{"media_key":"8c02463926868dd01a4cb7565fd4f80c:a95924445089b3f1-cd","type":"image/jpeg","width":500,"height":375,"url":"https://64.media.tumblr.com/8c02463926868dd01a4cb7565fd4f80c/a95924445089b3f1-cd/s500x750/8647f0149dc52f245715a2e8b2ccb22f3015d04f.jpg"},{"media_key":"8c02463926868dd01a4cb7565fd4f80c:a95924445089b3f1-cd","type":"image/jpeg","width":400,"height":300,"url":"https://64.media.tumblr.com/8c02463926868dd01a4cb7565fd4f80c/a95924445089b3f1-cd/s400x600/297a8ea9d22b0ed66f7c4c85c9aada4aa08212b7.jpg"},{"media_key":"8c02463926868dd01a4cb7565fd4f80c:a95924445089b3f1-cd","type":"image/jpeg","width":250,"height":188,"url":"https://64.media.tumblr.com/8c02463926868dd01a4cb7565fd4f80c/a95924445089b3f1-cd/s250x400/e5c38cca91f20f55fc1903e9ccfd83254af460ee.jpg"},{"media_key":"8c02463926868dd01a4cb7565fd4f80c:a95924445089b3f1-cd","type":"image/jpeg","width":100,"height":75,"url":"https://64.media.tumblr.com/8c02463926868dd01a4cb7565fd4f80c/a95924445089b3f1-cd/s100x200/5bf11208adc6e4c200ace4f56253e92cb9c23156.jpg"},{"media_key":"8c02463926868dd01a4cb7565fd4f80c:a95924445089b3f1-cd","type":"image/jpeg","width":75,"height":75,"url":"https://64.media.tumblr.com/8c02463926868dd01a4cb7565fd4f80c/a95924445089b3f1-cd/s75x75_c1/fe4d6f4e6a96b86121651dc480d527a79ef06b2d.jpg","cropped":true}],"colors":{"c0":"737021","c1":"877832","c2":"5c5817","c3":"484a11","c4":"5696c4"},"exif":{"Time":"1772888196"}}],"layout":[],"trail":[]}},{permalink:'https://research.nicholaschmidt.com/post/810429196806635520', date:"7 March 2026", npf: {"content":[{"type":"image","media":[{"media_key":"d36c56c991beb1bb731801106e83e2f8:fd2679f8ba505f8c-45","type":"image/jpeg","width":451,"height":611,"url":"https://64.media.tumblr.com/d36c56c991beb1bb731801106e83e2f8/fd2679f8ba505f8c-45/s500x750/a0467286c07f43beda930d11e81ecf5489970f6c.jpg","has_original_dimensions":true},{"media_key":"d36c56c991beb1bb731801106e83e2f8:fd2679f8ba505f8c-45","type":"image/jpeg","width":400,"height":542,"url":"https://64.media.tumblr.com/d36c56c991beb1bb731801106e83e2f8/fd2679f8ba505f8c-45/s400x600/38b17ef8f7c6ec77ef65fd80f752b8309a5351ff.jpg"},{"media_key":"d36c56c991beb1bb731801106e83e2f8:fd2679f8ba505f8c-45","type":"image/jpeg","width":250,"height":339,"url":"https://64.media.tumblr.com/d36c56c991beb1bb731801106e83e2f8/fd2679f8ba505f8c-45/s250x400/425380b683229fe4dea870576ffcf01887e75658.jpg"},{"media_key":"d36c56c991beb1bb731801106e83e2f8:fd2679f8ba505f8c-45","type":"image/jpeg","width":100,"height":135,"url":"https://64.media.tumblr.com/d36c56c991beb1bb731801106e83e2f8/fd2679f8ba505f8c-45/s100x200/6da1ec549aa8aa5f89ea8519ec59b3608880fdb7.jpg"},{"media_key":"d36c56c991beb1bb731801106e83e2f8:fd2679f8ba505f8c-45","type":"image/jpeg","width":75,"height":75,"url":"https://64.media.tumblr.com/d36c56c991beb1bb731801106e83e2f8/fd2679f8ba505f8c-45/s75x75_c1/5020bf90c86e786a2ee27a51325f8b5d84618a4f.jpg","cropped":true}],"colors":{"c0":"080c09","c1":"7e6228","c2":"b8d4c5","c3":"88b8d3","c4":"79abd2"},"exif":{"Time":"1772885508"}}],"layout":[],"trail":[]}},]
+    </script>
+    <script>
+
+        // Infinte scroller
+        // ================================================================
+
+        const infScroll = {
+
+            // User-setable options
+            opts: {
+
+                // Pagination
+                path: 'https://research.nicholaschmidt.com/page/',
+                dataSelector: '#data',
+                postsPerPage: 15, // must set manually
+
+                // Intersection Observer
+                root: null,
+                rootMargin: '0px 0px 400px 0px', // desandro infinte scroll default
+                sentinelElm: document.querySelector('.index-sentinel'),
+
+                // Elements
+                containerElm: document.querySelector('.index-list'),
+
+                // Status
+                statusElm: document.querySelector('.index-status'),
+                loadingStr: 'Loading...',
+                lastStr: 'End of posts',
+                errorStr: 'No more pages to load',
+            },
+
+            // Pagination data via tumblr theme variables (not user setable)
+            pageIndex: pageIndex,
+            pageCount: pageCount,
+            postCount: tumblr_api_read['posts-total'],
+
+            // Set inital post index with a function, for js object reasons.
+            setInitialPostIndex() {
+                this.postIndex = this.postCount - (this.pageIndex - 1) * this.opts.postsPerPage;
+            },
+
+            append(postObjArr) {
+
+                // Set inital post index
+                if (!this.postIndex) this.setInitialPostIndex();
+
+                // Create a DocumentFragment to hold the new elements
+                let postListFrag = document.createDocumentFragment();
+
+                // Loop through the data to create and append elements to the fragment
+                for (let postObj of postObjArr) {
+
+                    // Get the first image block from the NPF content array
+                    let firstImgObj = postObj.npf.content.find((obj) => obj.type == 'image');
+
+                    // Skip posts without images
+                    if (!firstImgObj) {
+                        this.postIndex--; // decrement post index
+                        continue;
+                    };
+
+                    // Get the largest media object from the media array
+                    let firstMediaObj = firstImgObj.media[0];
+
+                    // Create the image element
+                    let imgElm = document.createElement('img');
+                        imgElm.className = 'card-img';
+                        imgElm.src = firstMediaObj.url; // set image source
+                        imgElm.width = firstMediaObj.width; // set image width
+                        imgElm.height = firstMediaObj.height; // set image height
+                        imgElm.loading = 'lazy'; // set image loading
+                        imgElm.alt = (firstImgObj.alt_text) ? firstImgObj.alt_text : ''; // set optional alt text
+
+                    // Create the link element
+                    let anchorElm = document.createElement('a');
+                        anchorElm.className = 'card-anchor';
+                        anchorElm.href = postObj.permalink;
+                        anchorElm.target = '_blank';
+
+                    // Create the index element
+                    let indexElm = document.createElement('span');
+                        indexElm.className = 'card-index';
+                        indexElm.textContent = `${this.postIndex--}`; // set post index & decrement
+
+                    // Create the date element
+                    let dateElm = document.createElement('span');
+                        dateElm.className = 'card-date';
+                        dateElm.textContent = postObj.date; // Set date content
+
+                    // Create the metadata element
+                    let metaElm = document.createElement('div');
+                        metaElm.className = 'card-meta';
+
+                    // Create the post element
+                    let postElm = document.createElement('div');
+                        postElm.className = 'card-item';
+                        postElm.style = `--format: ${(firstMediaObj.width / firstMediaObj.height)}`; // set image format fucking with css.
+
+                    // Append elements to container
+                    anchorElm.append(imgElm); // Append elements to metadata
+                    metaElm.append(indexElm, dateElm); // Append elements to metadata
+                    postElm.append(anchorElm, metaElm);  // Append elements to post
+                    postListFrag.append(postElm); // Append post to Fragment
+                }
+
+                // Append fragment to the DOM
+                this.opts.containerElm.append(postListFrag);
+            },
+
+            // Load and append items form next page
+            async loadNextPage() {
+                try {
+
+                    // Check if over page limit
+                    if (this.pageIndex >= this.pageCount) {
+                        // Fires if we try to load next page on last page
+                        this.intersectionObserver.disconnect();
+                        this.opts.statusElm.textContent = this.opts.lastStr;
+                        return;
+                    }
+
+                    this.opts.statusElm.textContent = this.opts.loadingStr;
+
+                    // Await fetching the next page
+                    let response = await fetch(`${this.opts.path}${++this.pageIndex}`);
+
+                    // Check if the response was OK
+                    if (!response.ok) throw new Error(`Response status ${response.status}`);
+
+                    // Await parsing the resonse body as text
+                    let responseStr = await response.text();
+
+                    // Parse response text as DOM
+                    let responseBody = new DOMParser().parseFromString(responseStr, 'text/html');
+
+                    // Get data from the response DOM
+                    let responseData = eval(responseBody.querySelector(this.opts.dataSelector).innerHTML);
+
+                    // Append items to DOM
+                    this.append(responseData);
+
+                    // Check if last last page
+                    if (this.pageIndex >= this.pageCount) {
+                        // Fires after we’ve loaded the last page.
+                        this.intersectionObserver.disconnect();
+                        this.opts.statusElm.textContent = this.opts.lastStr;
+                    } else {
+                        this.opts.statusElm.textContent = '';
+                    }
+
+                    // Return item array
+                    return responseData;
+
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                    this.opts.statusElm.textContent = this.opts.errorStr;
+                }
+            },
+
+            // Keep loading next page until sentinel leaves threshold
+            handleIntersection(entries, observer) {
+
+                // Check if sentinel is within threshold
+                if (!entries[0].isIntersecting) return;
+
+                // Unobserve sentinel to manipulate the DOM without firing callbacks
+                observer.unobserve(entries[0].target);
+
+                // Load next page
+                infScroll.loadNextPage()
+
+                    // wait for posts to append
+                    .then(() => {
+
+                        // re-observe sentinel to re-check threshold
+                        observer.observe(entries[0].target)
+
+                    });
+            },
+
+            // Start observing sentinel
+            init() {
+
+                // set up intersection observer
+                this.intersectionObserver = new IntersectionObserver(this.handleIntersection, {
+                    root: this.opts.root,
+                    rootMargin: this.opts.rootMargin,
+                    threshold: 0
+                });
+
+                // observe sentinel elemnent
+                this.intersectionObserver.observe(this.opts.sentinelElm);
+            }
+
+        }
+
+        // Lightbox
+        // ================================================================
+
+        const lightbox = {
+
+            opts: {
+                galleryElm: infScroll.opts.containerElm,
+                containerElm: document.querySelector('.lightbox'),
+                anchorElm: document.querySelector('.lightbox-anchor'),
+                imgElm: document.querySelector('.lightbox-img'),
+            },
+
+            init() {
+                this.opts.galleryElm.addEventListener('click', this.handleGalleryClicks);
+            },
+
+            handleGalleryClicks(e) {
+                let anchor = e.target.closest('a');
+                if (!anchor || e.metaKey) return;
+                e.preventDefault();
+                // hacky bullshit to fake bluring lightbox img on mouse click.
+                lightbox.opts.anchorElm.style.outline = (e.detail == 0) ? '' : 'none';
+                lightbox.open(anchor);
+            },
+
+            handelLightboxClicks(e) {
+                if (e.target !== lightbox.opts.imgElm) lightbox.close();
+            },
+
+            handelLightboxKeydown(e) {
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    lightbox.close();
+                } else if (event.key === 'Tab' && lightbox.opts.anchorElm.style.outline) {
+                    event.preventDefault();
+                    lightbox.opts.anchorElm.style.outline = '';
+                    lightbox.opts.anchorElm.focus();
+                }
+            },
+
+            open(anchor) {
+
+                // Get source img
+                let img = anchor.querySelector('img');
+
+                // Set image elm
+                this.opts.imgElm.width = img.width;
+                this.opts.imgElm.height = img.height;
+                this.opts.imgElm.src = img.src;
+
+                // Set anchor elm
+                this.opts.anchorElm.href = `https://lens.google.com/uploadbyurl?url=${img.src}`;
+
+                // Listen for events
+                this.opts.containerElm.addEventListener('click', this.handelLightboxClicks);
+                this.opts.containerElm.addEventListener('keydown', this.handelLightboxKeydown);
+
+                this.opts.containerElm.showModal();
+
+            },
+
+            close() {
+                this.opts.containerElm.removeEventListener('click', this.handelLightboxClicks);
+                this.opts.containerElm.removeEventListener('keydown', this.handelLightboxKeydown);
+                this.opts.containerElm.close();
+            }
+
+        }
+
+        // Index Initial setup
+        // ================================================================
+
+        // load initial posts
+        infScroll.append(eval(document.querySelector(infScroll.opts.dataSelector).innerHTML));
+
+        // Start listening for intersections
+        if (pageCount > 1) infScroll.init();
+
+        // Start listenting for gallery clicks
+        lightbox.init();
+
+    </script>
+</body>
+</html>

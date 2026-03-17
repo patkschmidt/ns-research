@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <meta name="veiwport" content="width=device-width,initial-scale=1">
+    <title>{Title}</title>{block:Description}
+    <meta name="description" content="{MetaDescription}">{/block:Description}
+    <link rel="shortcut icon" href="{Favicon}">
+
+    <!-- Theme options-->
+    <meta name="color:Site background" content="#ffffff">
+    <meta name="color:Image background" content="#f5f5f5">
+    <meta name="color:Lightbox background" content="#ffffff">
+    <meta name="color:Text" content="#000000">
+    <meta name="text:Lightbox transparency" content=".75">
+
+
+    <style>
+
+        /* Theme variables */
+
+        :root {
+
+            /* Spacing */
+            --pageMargin: 1rem;
+            --minColWidth: 10lh;
+            --columnSpacing: 2lh;
+            --rowSpacing: 3lh;
+            --captionSpacing: 1lh;
+
+            /* Color*/
+            --color-surface: {color:Site background};
+            --color-surfaceContainer: {color:Image background};
+            --color-onSurface: {color:Text};
+            --color-scrim: {color:Lightbox background};
+
+            /*ETC*/
+            --opacity-scrim: {text:Lightbox transparency};
+        }
+
+        /* Reset */
+
+        *, ::after, ::before {
+            box-sizing: border-box;
+        }
+
+        html {
+            text-size-adjust: none;
+            -moz-text-size-adjust: none;
+            -webkit-text-size-adjust: none;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        body {
+            min-height: 100vh;
+            height: 100%;
+        }
+
+        blockquote, body, button, dd, dl, figcaption, figure, h1, h2, h3, h4, h5, h6, li, ol, p, ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font: inherit
+        }
+
+        li, ol, ul {
+            list-style-type: none;
+        }
+
+        a:focus, button:focus {
+            /*outline: none*/
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        input, button, textarea, select {
+            font: inherit;
+        }
+
+        button {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: 0 0;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        img {
+            max-inline-size: 100%;
+            block-size: auto;
+            vertical-align: middle
+        }
+
+        /* Global defaults */
+
+        html {
+            font-size: 87.5%;
+        }
+
+        body {
+            font: 400 100% / 1.2142857143 arial, helvetica, sans-serif;
+            background-color: var(--color-surface);
+            color: var(--color-onSurface);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: var(--pageMargin);
+            row-gap: 4lh;
+        }
+
+        ::-moz-selection {
+            color: var(--color-surface);
+            background: var(--color-onSurface);
+        }
+
+        ::selection {
+            color: var(--color-surface);
+            background: var(--color-onSurface);
+        }
+
+        /* Global componets */
+
+        .iframe-controls--phone-mobile, .tmblr-iframe--unified-controls, .tmblr-iframe--app-cta-button, .tmblr-iframe--follow-teaser, .tmblr-iframe--gdpr-banner {
+            display: none !important;
+        }
+
+        .tmblr-iframe-pushdown {
+            padding-top: var(--pageMargin) !important;
+        }
+
+        .siteNav {
+            max-width: 30rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            row-gap: 1lh;
+        }
+
+        .siteTitle-link {
+            background-color: var(--color-onSurface);
+            color: var(--color-surface);
+        }
+
+        .navList-link:hover {
+            font-style: italic;
+        }
+
+        /* Index componets */
+
+        .index {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .index-list {
+            display: grid;
+            align-items: center;
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--minColWidth)), 1fr));
+            gap: var(--rowSpacing) var(--columnSpacing);
+        }
+
+        .index-status {
+            margin-block-start: auto;
+            padding-block-start: 4lh;
+            height: 5lh;
+        }
+
+        /* Card componets */
+
+        .card-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            row-gap: var(--captionSpacing);
+        }
+
+        .card-anchor {
+            display: block;
+            inline-size: calc(100% * min(1, var(--format) * 1));
+        }
+
+        .card-img {
+            background-color: var(--color-surfaceContainer);
+        }
+
+        .card-meta {
+            text-align: center;
+        }
+
+        .card-date {
+            display: none;
+        }
+
+        .card-anchor:hover ~ .card-meta > .card-index,
+        .card-anchor:focus ~ .card-meta > .card-index {
+            display: none;
+        }
+
+        .card-anchor:hover ~ .card-meta > .card-date,
+        .card-anchor:focus ~ .card-meta > .card-date {
+            display: block
+        }
+
+        body:has(.lightbox[open]) .card-date {
+            display: none !important;
+        }
+
+        body:has(.lightbox[open]) .card-index {
+            display: block !important;
+        }
+
+        /* Lightbox components */
+
+        .lightbox {
+            inset-inline: 0;
+            inline-size: 100%;
+            block-size: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            border: 0;
+            padding: 0;
+            background-color: transparent;
+            inset-block: 0;
+            max-block-size: 85vh;
+            max-inline-size: 85vw;
+            overflow: visible;
+            cursor: pointer;
+        }
+
+        .lightbox::backdrop {
+            background-color: var(--color-scrim);
+            opacity: var(--opacity-scrim);
+        }
+
+        .lightbox[open] {
+            display: flex;
+        }
+
+        body:has(.lightbox[open]) {
+            overflow: hidden;
+        }
+
+        .lightbox-anchor {
+            cursor: default;
+            inline-size: fit-content;
+            block-size: fit-content;
+        }
+
+        .lightbox-img {
+            max-block-size: 100%;
+            max-inline-size: 100%;
+            min-block-size: auto;
+            min-inline-size: auto;
+            block-size: auto;
+            inline-size: auto;
+            position: relative;
+            vertical-align: middle;
+            background-color: var(--color-surfaceContainer);
+        }
+
+        .lightbox-closeBtn {
+            position: fixed;
+            inset-block-start: var(--pageMargin);
+            inset-inline-end: var(--pageMargin);
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .lightbox-closeBtn:focus {
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="siteNav">
+        <h1 class="siteTitle"><a class="siteTitle-link" href="{BlogURL}">{Title}</a></h1>{block:Description}
+        <p class="siteDescription">{Description}</p>{/block:Description}{block:HasPages}
+        <ul class="navList">{block:Pages}
+            <li class="navList-item"><a href="{URL}" class="navList-link">{Label}</a></li>{/block:Pages}
+        </ul>{/block:HasPages}
+    </nav>
+    <main class="index">
+        <div class="index-list"></div>
+        <div class="index-sentinel"></div>
+        <div class="index-status"></div>
+    </main>
+    <!-- TODO: set up permalink page system -->
+    <dialog class="lightbox" closedby="closerequest">
+        <a class="lightbox-anchor" href="/" target="_blank">
+            <img class="lightbox-img">
+        </a>
+        <button class="lightbox-closeBtn">
+            Close
+        </button>
+    </dialog>
+    <script src="{BlogURL}api/read/json?num=0"></script>
+    <script id='data'>[{block:Posts}{permalink:'{Permalink}',{block:Date}{/block:Date} date:"{DayOfMonth} {Month} {Year}",{/block:Date} npf: {NPF}},{/block:Posts}]</script>
+    <script>
+
+        // Infinte scroller
+        // ================================================================
+
+        const infScroll = {
+
+            // User-setable options
+            opts: {
+
+                // Pagination
+                path: '{BlogURL}page/',
+                dataSelector: '#data',
+                postsPerPage: 15, // must set manually
+
+                // Intersection Observer
+                root: null,
+                rootMargin: '0px 0px 400px 0px', // desandro infinte scroll default
+                sentinelElm: document.querySelector('.index-sentinel'),
+
+                // Elements
+                containerElm: document.querySelector('.index-list'),
+
+                // Status
+                statusElm: document.querySelector('.index-status'),
+                // TODO: Localize satus strings
+                loadingStr: 'Loading...',
+                lastStr: 'End of posts',
+                errorStr: 'No more pages to load',
+            },
+
+            // Pagination data via tumblr theme variables (not user setable)
+            pageIndex: {CurrentPage},
+            pageCount: {TotalPages},
+            postCount: tumblr_api_read['posts-total'],
+
+            // Set inital post index with a function, for js object reasons.
+            setInitialPostIndex() {
+                this.postIndex = this.postCount - (this.pageIndex - 1) * this.opts.postsPerPage;
+            },
+
+            append(postObjArr) {
+
+                // Set inital post index
+                if (!this.postIndex) this.setInitialPostIndex();
+
+                // Create a DocumentFragment to hold the new elements
+                let postListFrag = document.createDocumentFragment();
+
+                // Loop through the data to create and append elements to the fragment
+                for (let postObj of postObjArr) {
+
+                    // Get the first image block from the NPF content array
+                    let firstImgObj = postObj.npf.content.find((obj) => obj.type == 'image');
+
+                    // Skip posts without images
+                    if (!firstImgObj) {
+                        this.postIndex--; // decrement post index
+                        continue;
+                    };
+
+                    // Get the largest media object from the media array
+                    let firstMediaObj = firstImgObj.media[0];
+
+                    // Create the image element
+                    let imgElm = document.createElement('img');
+                        imgElm.className = 'card-img';
+                        imgElm.src = firstMediaObj.url; // set image source
+                        imgElm.width = firstMediaObj.width; // set image width
+                        imgElm.height = firstMediaObj.height; // set image height
+                        imgElm.loading = 'lazy'; // set image loading
+                        imgElm.alt = (firstImgObj.alt_text) ? firstImgObj.alt_text : ''; // set optional alt text
+
+                    // Create the link element
+                    let anchorElm = document.createElement('a');
+                        anchorElm.className = 'card-anchor';
+                        anchorElm.href = postObj.permalink;
+                        anchorElm.target = '_blank';
+
+                    // Create the index element
+                    let indexElm = document.createElement('span');
+                        indexElm.className = 'card-index';
+                        indexElm.textContent = `${this.postIndex--}`; // set post index & decrement
+
+                    // Create the date element
+                    let dateElm = document.createElement('span');
+                        dateElm.className = 'card-date';
+                        dateElm.textContent = postObj.date; // Set date content
+
+                    // Create the metadata element
+                    let metaElm = document.createElement('div');
+                        metaElm.className = 'card-meta';
+
+                    // Create the post element
+                    let postElm = document.createElement('div');
+                        postElm.className = 'card-item';
+                        postElm.style = `--format: ${(firstMediaObj.width / firstMediaObj.height)}`; // set image format fucking with css.
+
+                    // Append elements to container
+                    anchorElm.append(imgElm); // Append elements to metadata
+                    metaElm.append(indexElm, dateElm); // Append elements to metadata
+                    postElm.append(anchorElm, metaElm);  // Append elements to post
+                    postListFrag.append(postElm); // Append post to Fragment
+                }
+
+                // Append fragment to the DOM
+                this.opts.containerElm.append(postListFrag);
+            },
+
+            // Load and append items form next page
+            async loadNextPage() {
+                try {
+
+                    // Check if over page limit
+                    if (this.pageIndex >= this.pageCount) {
+                        // Fires if we try to load next page on last page
+                        this.intersectionObserver.disconnect();
+                        this.opts.statusElm.textContent = this.opts.lastStr;
+                        return;
+                    }
+
+                    this.opts.statusElm.textContent = this.opts.loadingStr;
+
+                    // Await fetching the next page
+                    let response = await fetch(`${this.opts.path}${++this.pageIndex}`);
+
+                    // Check if the response was OK
+                    if (!response.ok) throw new Error(`Response status ${response.status}`);
+
+                    // Await parsing the resonse body as text
+                    let responseStr = await response.text();
+
+                    // Parse response text as DOM
+                    let responseBody = new DOMParser().parseFromString(responseStr, 'text/html');
+
+                    // Get data from the response DOM
+                    let responseData = eval(responseBody.querySelector(this.opts.dataSelector).innerHTML);
+
+                    // Append items to DOM
+                    this.append(responseData);
+
+                    // Check if last last page
+                    if (this.pageIndex >= this.pageCount) {
+                        // Fires after we’ve loaded the last page.
+                        this.intersectionObserver.disconnect();
+                        this.opts.statusElm.textContent = this.opts.lastStr;
+                    } else {
+                        this.opts.statusElm.textContent = '';
+                    }
+
+                    // Return item array
+                    return responseData;
+
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                    this.opts.statusElm.textContent = this.opts.errorStr;
+                }
+            },
+
+            // Keep loading next page until sentinel leaves threshold
+            handleIntersection(entries, observer) {
+
+                // Check if sentinel is within threshold
+                if (!entries[0].isIntersecting) return;
+
+                // Unobserve sentinel to manipulate the DOM without firing callbacks
+                observer.unobserve(entries[0].target);
+
+                // Load next page
+                infScroll.loadNextPage()
+
+                    // wait for posts to append
+                    .then(() => {
+
+                        // re-observe sentinel to re-check threshold
+                        observer.observe(entries[0].target)
+
+                    });
+            },
+
+            // Start observing sentinel
+            init() {
+
+                // set up intersection observer
+                this.intersectionObserver = new IntersectionObserver(this.handleIntersection, {
+                    root: this.opts.root,
+                    rootMargin: this.opts.rootMargin,
+                    threshold: 0
+                });
+
+                // observe sentinel elemnent
+                this.intersectionObserver.observe(this.opts.sentinelElm);
+            }
+
+        }
+
+        // Lightbox
+        // ================================================================
+
+        const lightbox = {
+
+            opts: {
+                galleryElm: infScroll.opts.containerElm,
+                containerElm: document.querySelector('.lightbox'),
+                anchorElm: document.querySelector('.lightbox-anchor'),
+                imgElm: document.querySelector('.lightbox-img'),
+            },
+
+            init() {
+                this.opts.galleryElm.addEventListener('click', this.handleGalleryClicks);
+            },
+
+            handleGalleryClicks(e) {
+                let anchor = e.target.closest('a');
+                if (!anchor || e.metaKey) return;
+                e.preventDefault();
+                // hacky bullshit to fake bluring lightbox img on mouse click.
+                lightbox.opts.anchorElm.style.outline = (e.detail == 0) ? '' : 'none';
+                lightbox.open(anchor);
+            },
+
+            handelLightboxClicks(e) {
+                if (e.target !== lightbox.opts.imgElm) lightbox.close();
+            },
+
+            handelLightboxKeydown(e) {
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    lightbox.close();
+                } else if (event.key === 'Tab' && lightbox.opts.anchorElm.style.outline) {
+                    event.preventDefault();
+                    lightbox.opts.anchorElm.style.outline = '';
+                    lightbox.opts.anchorElm.focus();
+                }
+            },
+
+            open(anchor) {
+
+                // Get source img
+                let img = anchor.querySelector('img');
+
+                // Set image elm
+                this.opts.imgElm.width = img.width;
+                this.opts.imgElm.height = img.height;
+                this.opts.imgElm.src = img.src;
+
+                // Set anchor elm
+                this.opts.anchorElm.href = `https://lens.google.com/uploadbyurl?url=${img.src}`;
+
+                // Listen for events
+                this.opts.containerElm.addEventListener('click', this.handelLightboxClicks);
+                this.opts.containerElm.addEventListener('keydown', this.handelLightboxKeydown);
+
+                this.opts.containerElm.showModal();
+
+            },
+
+            close() {
+                this.opts.containerElm.removeEventListener('click', this.handelLightboxClicks);
+                this.opts.containerElm.removeEventListener('keydown', this.handelLightboxKeydown);
+                this.opts.containerElm.close();
+            }
+
+        }
+
+        // Index Initial setup
+        // ================================================================
+
+        // load initial posts
+        infScroll.append(eval(document.querySelector(infScroll.opts.dataSelector).innerHTML));
+
+        // Start listening for intersections
+        {block:IndexPage} {block:Pagination} infScroll.init(); {/block:Pagination} {/block:IndexPage}
+
+        // Start listenting for gallery clicks
+        lightbox.init();
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <meta name="veiwport" content="width=device-width,initial-scale=1">
+    <title>{Title}</title>{block:Description}
+    <meta name="description" content="{MetaDescription}">{/block:Description}
+
+    <link rel="shortcut icon" href="{Favicon}">
+
+    <meta name="color:Site background" content="#ffffff">
+    <meta name="color:Image background" content="#f5f5f5">
+    <meta name="color:Lightbox background" content="#ffffff">
+    <meta name="color:Text" content="#000000">
+    <meta name="text:Lightbox transparency" content=".75">
+
+    <style>
+
+        :root {
+            --pageMargin: 1rem;
+            --minColWidth: 10lh;
+            --columnSpacing: 2lh;
+            --rowSpacing: 3lh;
+            --captionSpacing: 1lh;
+            --color-surface: {color:Site background};
+            --color-surfaceContainer: {color:Image background};
+            --color-onSurface: {color:Text};
+            --color-scrim: {color:Lightbox background};
+            --opacity-scrim: {text:Lightbox transparency};
+        }
+
+        *, ::after, ::before {
+            box-sizing: border-box;
+        }
+
+        html {
+            text-size-adjust: none;
+            -moz-text-size-adjust: none;
+            -webkit-text-size-adjust: none;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        body {
+            min-height: 100vh;
+            height: 100%;
+        }
+
+        blockquote, body, button, dd, dl, figcaption, figure, h1, h2, h3, h4, h5, h6, li, ol, p, ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font: inherit
+        }
+
+        li, ol, ul {
+            list-style-type: none;
+        }
+
+        a:focus, button:focus {
+            /*outline: none*/
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        input, button, textarea, select {
+            font: inherit;
+        }
+
+        button {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: 0 0;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        img {
+            max-inline-size: 100%;
+            block-size: auto;
+            vertical-align: middle
+        }
+
+        html {
+            font-size: 87.5%;
+        }
+
+        body {
+            font: 400 100% / 1.2142857143 arial, helvetica, sans-serif;
+            background-color: var(--color-surface);
+            color: var(--color-onSurface);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: var(--pageMargin);
+            row-gap: 4lh;
+        }
+
+        ::-moz-selection {
+            color: var(--color-surface);
+            background: var(--color-onSurface);
+        }
+
+        ::selection {
+            color: var(--color-surface);
+            background: var(--color-onSurface);
+        }
+
+        .iframe-controls--phone-mobile, .tmblr-iframe--unified-controls, .tmblr-iframe--app-cta-button, .tmblr-iframe--follow-teaser, .tmblr-iframe--gdpr-banner {
+            display: none !important;
+        }
+
+        .tmblr-iframe-pushdown {
+            padding-top: var(--pageMargin) !important;
+        }
+
+        .siteNav {
+            max-width: 30rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            row-gap: 1lh;
+        }
+
+        .siteTitle-link {
+            background-color: var(--color-onSurface);
+            color: var(--color-surface);
+        }
+
+        .navList-link:hover {
+            font-style: italic;
+        }
+
+        .index {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .index-list {
+            display: grid;
+            align-items: center;
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--minColWidth)), 1fr));
+            gap: var(--rowSpacing) var(--columnSpacing);
+        }
+
+        .index-status {
+            margin-block-start: auto;
+            padding-block-start: 4lh;
+            height: 5lh;
+        }
+
+        .card-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            row-gap: var(--captionSpacing);
+        }
+
+        .card-anchor {
+            display: block;
+            inline-size: calc(100% * min(1, var(--format) * 1));
+        }
+
+        .card-img {
+            background-color: var(--color-surfaceContainer);
+        }
+
+        .card-meta {
+            text-align: center;
+        }
+
+        .card-date {
+            display: none;
+        }
+
+        .card-anchor:hover ~ .card-meta > .card-index,
+        .card-anchor:focus ~ .card-meta > .card-index {
+            display: none;
+        }
+
+        .card-anchor:hover ~ .card-meta > .card-date,
+        .card-anchor:focus ~ .card-meta > .card-date {
+            display: block
+        }
+
+        body:has(.lightbox[open]) .card-date {
+            display: none !important;
+        }
+
+        body:has(.lightbox[open]) .card-index {
+            display: block !important;
+        }
+
+        .lightbox {
+            inset-inline: 0;
+            inline-size: 100%;
+            block-size: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            border: 0;
+            padding: 0;
+            background-color: transparent;
+            inset-block: 0;
+            max-block-size: 85vh;
+            max-inline-size: 85vw;
+            overflow: visible;
+            cursor: pointer;
+        }
+
+        .lightbox::backdrop {
+            background-color: var(--color-scrim);
+            opacity: var(--opacity-scrim);
+        }
+
+        .lightbox[open] {
+            display: flex;
+        }
+
+        body:has(.lightbox[open]) {
+            overflow: hidden;
+        }
+
+        .lightbox-anchor {
+            cursor: default;
+            inline-size: fit-content;
+            block-size: fit-content;
+        }
+
+        .lightbox-img {
+            max-block-size: 100%;
+            max-inline-size: 100%;
+            min-block-size: auto;
+            min-inline-size: auto;
+            block-size: auto;
+            inline-size: auto;
+            position: relative;
+            vertical-align: middle;
+            background-color: var(--color-surfaceContainer);
+        }
+
+        .lightbox-closeBtn {
+            position: fixed;
+            inset-block-start: var(--pageMargin);
+            inset-inline-end: var(--pageMargin);
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .lightbox-closeBtn:focus {
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="siteNav">
+        <h1 class="siteTitle"><a class="siteTitle-link" href="{BlogURL}">{Title}</a></h1>{block:Description}
+        <p class="siteDescription">{Description}</p>{/block:Description}{block:HasPages}
+        <ul class="navList">{block:Pages}
+            <li class="navList-item"><a href="{URL}" class="navList-link">{Label}</a></li>{/block:Pages}
+        </ul>{/block:HasPages}
+    </nav>
+    <main class="index">
+        <div class="index-list"></div>
+        <div class="index-sentinel"></div>
+        <div class="index-status"></div>
+    </main>
+    <dialog class="lightbox" closedby="closerequest">
+        <a class="lightbox-anchor" href="/" target="_blank">
+            <img class="lightbox-img">
+        </a>
+        <button class="lightbox-closeBtn">
+            Close
+        </button>
+    </dialog>
+    <script src="{BlogURL}api/read/json?num=0"></script>
+    <script id='data'>[{block:Posts}{permalink:'{Permalink}',{block:Date}{/block:Date} date:"{DayOfMonth} {Month} {Year}",{/block:Date} npf: {NPF}},{/block:Posts}]</script>
+    <script>
+        const infScroll = {
+
+            opts: {
+                path: '{BlogURL}page/',
+                dataSelector: '#data',
+                postsPerPage: 15,
+                root: null,
+                rootMargin: '0px 0px 400px 0px',
+                sentinelElm: document.querySelector('.index-sentinel'),
+                containerElm: document.querySelector('.index-list'),
+                statusElm: document.querySelector('.index-status'),
+                loadingStr: 'Loading...',
+                lastStr: 'End of posts',
+                errorStr: 'No more pages to load',
+            },
+
+            pageIndex: {CurrentPage},
+            pageCount: {TotalPages},
+            postCount: tumblr_api_read['posts-total'],
+
+            setInitialPostIndex() {
+                this.postIndex = this.postCount - (this.pageIndex - 1) * this.opts.postsPerPage;
+            },
+
+            append(postObjArr) {
+                if (!this.postIndex) this.setInitialPostIndex();
+
+                let postListFrag = document.createDocumentFragment();
+
+                for (let postObj of postObjArr) {
+
+                    let firstImgObj = postObj.npf.content.find((obj) => obj.type == 'image');
+
+                    if (!firstImgObj) {
+                        this.postIndex--;
+                        continue;
+                    };
+
+                    let firstMediaObj = firstImgObj.media[0];
+
+                    let imgElm = document.createElement('img');
+                        imgElm.className = 'card-img';
+                        imgElm.src = firstMediaObj.url;
+                        imgElm.width = firstMediaObj.width;
+                        imgElm.height = firstMediaObj.height;
+                        imgElm.loading = 'lazy';
+                        imgElm.alt = (firstImgObj.alt_text) ? firstImgObj.alt_text : '';
+
+                    let anchorElm = document.createElement('a');
+                        anchorElm.className = 'card-anchor';
+                        anchorElm.href = postObj.permalink;
+                        anchorElm.target = '_blank';
+
+                    let indexElm = document.createElement('span');
+                        indexElm.className = 'card-index';
+                        indexElm.textContent = `${this.postIndex--}`;
+
+                    let dateElm = document.createElement('span');
+                        dateElm.className = 'card-date';
+                        dateElm.textContent = postObj.date;
+
+                    let metaElm = document.createElement('div');
+                        metaElm.className = 'card-meta';
+
+                    let postElm = document.createElement('div');
+                        postElm.className = 'card-item';
+                        postElm.style = `--format: ${(firstMediaObj.width / firstMediaObj.height)}`;
+
+                    anchorElm.append(imgElm);
+                    metaElm.append(indexElm, dateElm);
+                    postElm.append(anchorElm, metaElm);
+                    postListFrag.append(postElm);
+                }
+
+                this.opts.containerElm.append(postListFrag);
+            },
+
+            async loadNextPage() {
+                try {
+                    if (this.pageIndex >= this.pageCount) {
+
+                        this.intersectionObserver.disconnect();
+                        this.opts.statusElm.textContent = this.opts.lastStr;
+                        return;
+                    }
+
+                    this.opts.statusElm.textContent = this.opts.loadingStr;
+                    let response = await fetch(`${this.opts.path}${++this.pageIndex}`);
+                    if (!response.ok) throw new Error(`Response status ${response.status}`);
+                    let responseStr = await response.text();
+                    let responseBody = new DOMParser().parseFromString(responseStr, 'text/html');
+                    let responseData = eval(responseBody.querySelector(this.opts.dataSelector).innerHTML);
+
+                    this.append(responseData);
+
+                    if (this.pageIndex >= this.pageCount) {
+                        this.intersectionObserver.disconnect();
+                        this.opts.statusElm.textContent = this.opts.lastStr;
+                    } else {
+                        this.opts.statusElm.textContent = '';
+                    }
+
+                    return responseData;
+
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                    this.opts.statusElm.textContent = this.opts.errorStr;
+                }
+            },
+
+            handleIntersection(entries, observer) {
+
+                if (!entries[0].isIntersecting) return;
+
+                observer.unobserve(entries[0].target);
+                infScroll.loadNextPage()
+                    .then(() => {
+                        observer.observe(entries[0].target)
+                    });
+            },
+
+            init() {
+                this.intersectionObserver = new IntersectionObserver(this.handleIntersection, {
+                    root: this.opts.root,
+                    rootMargin: this.opts.rootMargin,
+                    threshold: 0
+                });
+
+                this.intersectionObserver.observe(this.opts.sentinelElm);
+            }
+        }
+
+        const lightbox = {
+
+            opts: {
+                galleryElm: infScroll.opts.containerElm,
+                containerElm: document.querySelector('.lightbox'),
+                anchorElm: document.querySelector('.lightbox-anchor'),
+                imgElm: document.querySelector('.lightbox-img'),
+            },
+
+            init() {
+                this.opts.galleryElm.addEventListener('click', this.handleGalleryClicks);
+            },
+
+            handleGalleryClicks(e) {
+                let anchor = e.target.closest('a');
+                if (!anchor || e.metaKey) return;
+                e.preventDefault();
+                lightbox.opts.anchorElm.style.outline = (e.detail == 0) ? '' : 'none';
+                lightbox.open(anchor);
+            },
+
+            handelLightboxClicks(e) {
+                if (e.target !== lightbox.opts.imgElm) lightbox.close();
+            },
+
+            handelLightboxKeydown(e) {
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    lightbox.close();
+                } else if (event.key === 'Tab' && lightbox.opts.anchorElm.style.outline) {
+                    event.preventDefault();
+                    lightbox.opts.anchorElm.style.outline = '';
+                    lightbox.opts.anchorElm.focus();
+                }
+            },
+
+            open(anchor) {
+                let img = anchor.querySelector('img');
+                this.opts.imgElm.width = img.width;
+                this.opts.imgElm.height = img.height;
+                this.opts.imgElm.src = img.src;
+                this.opts.anchorElm.href = `https://lens.google.com/uploadbyurl?url=${img.src}`;
+                this.opts.containerElm.addEventListener('click', this.handelLightboxClicks);
+                this.opts.containerElm.addEventListener('keydown', this.handelLightboxKeydown);
+                this.opts.containerElm.showModal();
+            },
+
+            close() {
+                this.opts.containerElm.removeEventListener('click', this.handelLightboxClicks);
+                this.opts.containerElm.removeEventListener('keydown', this.handelLightboxKeydown);
+                this.opts.containerElm.close();
+            }
+
+        }
+
+        infScroll.append(eval(document.querySelector(infScroll.opts.dataSelector).innerHTML));
+        {block:IndexPage} {block:Pagination} infScroll.init(); {/block:Pagination} {/block:IndexPage}
+        lightbox.init();
+    </script>
+</body>
+</html>
