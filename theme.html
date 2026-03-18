@@ -149,8 +149,7 @@
         }
 
         .siteTitle-link {
-            background-color: var(--color-onSurface);
-            color: var(--color-surface);
+            text-decoration: underline;
         }
 
         .navList-link:hover {
@@ -290,8 +289,10 @@
 </head>
 <body>
     <nav class="siteNav">
-        <h1 class="siteTitle"><a class="siteTitle-link" href="{BlogURL}">{Title}</a></h1>{block:Description}
-        <p class="siteDescription">{Description}</p>{/block:Description}{block:HasPages}
+        <div class="siteIntro">
+            <h1 class="siteTitle"><a class="siteTitle-link" href="{BlogURL}">{Title}</a></h1>{block:Description}
+            <p class="siteDescription">{Description}</p>{/block:Description}{block:HasPages}
+        </div>
         <ul class="navList">{block:Pages}
             <li class="navList-item"><a href="{URL}" class="navList-link">{Label}</a></li>{/block:Pages}
         </ul>{/block:HasPages}
